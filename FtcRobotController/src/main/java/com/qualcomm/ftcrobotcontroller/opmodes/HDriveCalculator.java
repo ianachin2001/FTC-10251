@@ -4,6 +4,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
  * Created by ian on 8/18/2016.
  */
 //Github test comment
+    //Github test comment 2
 public class HDriveCalculator {
     double driveLeft;
     double driveRight;
