@@ -110,6 +110,6 @@ public class HDriveCalculator {
         return driveRight;
     }
     public double getMiddleDrive(){
-        return 1;
+        return driveMiddle;
     }
 }
