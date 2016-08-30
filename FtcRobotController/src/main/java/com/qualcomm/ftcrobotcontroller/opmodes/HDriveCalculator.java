@@ -6,7 +6,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 //test comment Luke ... ...
 //Github test comment
-    //hirsh ramani is so cool
+    //hirsh ramani is NOT cool
     //Github test comment 2
     //Github test comment 3
 //test comment 4
