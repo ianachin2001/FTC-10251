@@ -24,6 +24,7 @@ public class HDriveTeleop extends OpMode {
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
         middleMotor = hardwareMap.dcMotor.get("middleMotor");
         calculator = new HDriveCalculator();
+        leftMotor.setDirection(DcMotor.Direction.REVERSE);
         gyro = (ModernRoboticsI2cGyro)gyro2;
         gyro.calibrate();
         while(gyro.isCalibrating()){
@@ -41,7 +42,7 @@ public class HDriveTeleop extends OpMode {
         float leftY = gamepad1.left_stick_y;
         float rightX = gamepad1.right_stick_x;
         float rightY = gamepad1.right_stick_y;
-        calculator.calculateMovement(leftX, leftY, rightX, gyro.rawZ());
+        calculator.calculateMovement(leftX, leftY, rightX, 0);
         leftMotor.setPower(calculator.getLeftDrive());
         rightMotor.setPower(calculator.getRightDrive());
         middleMotor.setPower(calculator.getMiddleDrive());
