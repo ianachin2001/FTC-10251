@@ -21,11 +21,8 @@ public class HDriveCalculator {
         if(joystickX != 0 && joystickY != 0) {
             double scaleFactor = Math.sqrt(joystickX * joystickX + joystickY * joystickY);
             double moveAngle;
-            if(joystickY < 0){
-                moveAngle = 180 + Math.acos(-joystickX / scaleFactor);
-            }
-            else{
-                moveAngle = Math.acos(joystickX / scaleFactor);
+            if(joystickY > 0 || joystickX > 0){
+                moveAngle = Math.atan(joystickY / joystickX);
             }
             double robotAngle = angle;
             double xMove = scaleFactor * (Math.cos(moveAngle - robotAngle));
