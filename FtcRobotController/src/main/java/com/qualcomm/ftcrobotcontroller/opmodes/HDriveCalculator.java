@@ -21,8 +21,21 @@ public class HDriveCalculator {
         if(joystickX != 0 && joystickY != 0) {
             double scaleFactor = Math.sqrt(joystickX * joystickX + joystickY * joystickY);
             double moveAngle;
-            if(joystickY > 0 || joystickX > 0){
-                moveAngle = Math.atan(joystickY / joystickX);
+            if(joystickX > 0){
+                if(joystickY > 0) {
+                    moveAngle = Math.atan(joystickY / joystickX);
+                }
+                else{
+                    moveAngle = 3/2 * Math.PI - Math.atan(joystickY / joystickX);
+                }
+            }
+            else{
+                if(joystickY > 0){
+                    moveAngle = 1/2 * Math.PI + (1/2 * Math.PI + Math.atan(joystickY / joystickX));
+                }
+                else{
+                    moveAngle = Math.PI + Math.atan(joystickY / joystickX);
+                }
             }
             double robotAngle = angle;
             double xMove = scaleFactor * (Math.cos(moveAngle - robotAngle));
@@ -45,10 +58,10 @@ public class HDriveCalculator {
             double scaleFactor = Math.abs(joystickY);
             double moveAngle;
             if(joystickY > 0) {
-                moveAngle = 90;
+                moveAngle = Math.PI/2;
             }
             else{
-                moveAngle = 270;
+                moveAngle = 3/2 * Math.PI;
             }
             double robotAngle = angle;
             double xMove = scaleFactor * (Math.cos(moveAngle - robotAngle));
@@ -74,7 +87,7 @@ public class HDriveCalculator {
                 moveAngle = 0;
             }
             else{
-                moveAngle = 180;
+                moveAngle = Math.PI;
             }
             double robotAngle = angle;
             double xMove = scaleFactor * (Math.cos(moveAngle - robotAngle));
