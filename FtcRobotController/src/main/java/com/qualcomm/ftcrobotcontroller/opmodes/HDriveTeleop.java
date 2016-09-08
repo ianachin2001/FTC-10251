@@ -14,7 +14,7 @@ public class HDriveTeleop extends OpMode {
     DcMotor leftMotor;
     DcMotor rightMotor;
     DcMotor middleMotor;
-    HDriveCalculator calculator;
+    HDrive2 calculator;
     public HDriveTeleop(){
 
     }
@@ -23,7 +23,7 @@ public class HDriveTeleop extends OpMode {
         leftMotor = hardwareMap.dcMotor.get("leftMotor");
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
         middleMotor = hardwareMap.dcMotor.get("middleMotor");
-        calculator = new HDriveCalculator();
+        calculator = new HDrive2();
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         gyro = (ModernRoboticsI2cGyro)gyro2;
         gyro.calibrate();

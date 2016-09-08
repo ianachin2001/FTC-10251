@@ -30,10 +30,10 @@ public class HDriveCalculator {
                 }
             }
             else{
-                if(joystickY > 0){
+                        if(joystickY > 0){
                     moveAngle = 1/2 * Math.PI + (1/2 * Math.PI + Math.atan(joystickY / joystickX));
                 }
-                else{
+                        else{
                     moveAngle = Math.PI + Math.atan(joystickY / joystickX);
                 }
             }
