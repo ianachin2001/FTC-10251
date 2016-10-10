@@ -17,6 +17,11 @@ public class AutoClass extends OpMode{
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
         middleMotor = hardwareMap.dcMotor.get("middleMotor");
         controller = hardwareMap.dcMotorController.get("Motor Controller 1");
+
+        telemetry.addData("Status", "Resetting Encoders");    //
+        telemetry.update();
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     public void loop(){
         telemetry.addData("Motor 1 position", controller.getMotorCurrentPosition(1));
