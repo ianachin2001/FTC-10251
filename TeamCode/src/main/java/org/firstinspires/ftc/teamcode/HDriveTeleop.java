@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 
 /**
  * Created by HIRSH on 8/18/2016.
  */
+@TeleOp(name= "HDriveTeleop")
 public class HDriveTeleop extends OpMode {
     public GyroSensor gyro2;
     public ModernRoboticsI2cGyro gyro;
@@ -23,6 +26,7 @@ public class HDriveTeleop extends OpMode {
         leftMotor = hardwareMap.dcMotor.get("leftMotor");
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
         middleMotor = hardwareMap.dcMotor.get("middleMotor");
+
         calculator = new HDrive2();
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         gyro = (ModernRoboticsI2cGyro)gyro2;
