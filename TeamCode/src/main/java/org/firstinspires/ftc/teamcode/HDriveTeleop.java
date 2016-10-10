@@ -1,11 +1,11 @@
-package com.qualcomm.ftcrobotcontroller.opmodes;
+package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 
 /**
- * Created by ian on 8/18/2016.
+ * Created by HIRSH on 8/18/2016.
  */
 public class HDriveTeleop extends OpMode {
     public GyroSensor gyro2;
