@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 
 /**
@@ -29,6 +30,7 @@ public class HDriveTeleop extends OpMode {
 
         calculator = new HDrive2();
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        middleMotor.setDirection(DcMotor.Direction.REVERSE);
         gyro = (ModernRoboticsI2cGyro)gyro2;
         gyro.calibrate();
         while(gyro.isCalibrating()){
