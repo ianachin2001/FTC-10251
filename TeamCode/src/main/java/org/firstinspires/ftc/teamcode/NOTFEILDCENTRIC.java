@@ -4,14 +4,13 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 
 /**
- * Created by HIRSH on 8/18/2016.
+ * Created by ian on 8/18/2016.
  */
-@TeleOp(name= "HDriveTeleop")
-public class HDriveTeleop extends OpMode {
+@TeleOp(name= "HDrive: Not Field Centric")
+public class NOTFEILDCENTRIC extends OpMode {
     public GyroSensor gyro2;
     public ModernRoboticsI2cGyro gyro;
     public double gyroAngle;
@@ -19,7 +18,7 @@ public class HDriveTeleop extends OpMode {
     DcMotor rightMotor;
     DcMotor middleMotor;
     HDrive2 calculator;
-    public HDriveTeleop(){
+    public NOTFEILDCENTRIC(){
 
     }
     public void init(){
@@ -30,7 +29,6 @@ public class HDriveTeleop extends OpMode {
 
         calculator = new HDrive2();
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        middleMotor.setDirection(DcMotor.Direction.REVERSE);
         gyro = (ModernRoboticsI2cGyro)gyro2;
         gyro.calibrate();
         while(gyro.isCalibrating()){
@@ -46,9 +44,9 @@ public class HDriveTeleop extends OpMode {
     public void loop(){
         float leftX = gamepad1.left_stick_x;
         float leftY = gamepad1.left_stick_y;
-        float rightX = gamepad1.right_stick_x;
+        float rightX = -gamepad1.right_stick_x;
         float rightY = gamepad1.right_stick_y;
-        calculator.calculateMovement(leftX, leftY, rightX, gyro.getHeading());
+        calculator.calculateMovement(leftX, leftY, rightX, 0);
         leftMotor.setPower(calculator.getLeftDrive());
         rightMotor.setPower(calculator.getRightDrive());
         middleMotor.setPower(calculator.getMiddleDrive());
