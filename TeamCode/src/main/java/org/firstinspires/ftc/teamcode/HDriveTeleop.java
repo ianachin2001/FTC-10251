@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
  */
 @TeleOp(name= "HDriveTeleop")
 public class HDriveTeleop extends OpMode {
-    //double[] rollAngle = new double[2], pitchAngle = new double[2], yawAngle = new double[2];
+    double[] rollAngle = new double[2], pitchAngle = new double[2], yawAngle = new double[2];
     public GyroSensor gyro2;
     public ModernRoboticsI2cGyro gyro;
     public double gyroAngle;
@@ -23,12 +23,12 @@ public class HDriveTeleop extends OpMode {
     DcMotor rightMotor;
     DcMotor middleMotor;
     HDrive2 calculator;
-    //AdafruitIMU boschBNO055;
+    AdafruitIMU boschBNO055;
     public HDriveTeleop(){
 
     }
     public void init(){
-        /*try {
+        try {
             boschBNO055 = new AdafruitIMU(hardwareMap, "bno055"
 
                     //The following was required when the definition of the "I2cDevice" class was incomplete.
@@ -39,7 +39,7 @@ public class HDriveTeleop extends OpMode {
                     , (byte)AdafruitIMU.OPERATION_MODE_IMU);
         } catch (RobotCoreException e){
             Log.i("FtcRobotController", "Exception: " + e.getMessage());
-        }*/
+        }
         gyro2 = hardwareMap.gyroSensor.get("gyro");
         leftMotor = hardwareMap.dcMotor.get("leftMotor");
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
@@ -48,7 +48,7 @@ public class HDriveTeleop extends OpMode {
         calculator = new HDrive2();
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         middleMotor.setDirection(DcMotor.Direction.REVERSE);
-        gyro = (ModernRoboticsI2cGyro)gyro2;
+        /*gyro = (ModernRoboticsI2cGyro)gyro2;
         gyro.calibrate();
         while(gyro.isCalibrating()){
             try {
@@ -57,7 +57,7 @@ public class HDriveTeleop extends OpMode {
             catch(InterruptedException e){
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
     public void loop(){
@@ -70,18 +70,18 @@ public class HDriveTeleop extends OpMode {
         rightMotor.setPower(calculator.getRightDrive());
         middleMotor.setPower(calculator.getMiddleDrive());
 
-        /*boschBNO055.getIMUGyroAngles(rollAngle, pitchAngle, yawAngle);
+        boschBNO055.getIMUGyroAngles(rollAngle, pitchAngle, yawAngle);
 		/*
 		 * Send whatever telemetry data you want back to driver station.
 		 */
         //telemetry.addData("Text", "*** Robot Data***");
-        /*telemetry.addData("Headings(yaw): ",
+        telemetry.addData("Headings(yaw): ",
                 String.format("Euler= %4.5f, Quaternion calculated= %4.5f", yawAngle[0], yawAngle[1]));
         telemetry.addData("Pitches: ",
                 String.format("Euler= %4.5f, Quaternion calculated= %4.5f", pitchAngle[0], pitchAngle[1]));
         telemetry.addData("Max I2C read interval: ",
                 String.format("%4.4f ms. Average interval: %4.4f ms.", boschBNO055.maxReadInterval
-                        , boschBNO055.avgReadInterval));*/
+                        , boschBNO055.avgReadInterval));
 
     }
 }
