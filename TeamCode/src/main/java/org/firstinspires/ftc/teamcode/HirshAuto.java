@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
 /**
  * Created by Hirsh on 9/22/2016.
  */
+public class HirshAuto extends OpMode {
     DcMotor leftMotor;
     DcMotor rightMotor;
     DcMotor middleMotor;
