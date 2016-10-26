@@ -9,21 +9,23 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.I2cDevice;
 
 /**
  * Created by HIRSH on 8/18/2016.
  */
 @TeleOp(name= "HDriveTeleop")
 public class HDriveTeleop extends OpMode {
-    //double[] rollAngle = new double[2], pitchAngle = new double[2], yawAngle = new double[2];
-    public GyroSensor gyro2;
-    public ModernRoboticsI2cGyro gyro;
+    double[] rollAngle = new double[2], pitchAngle = new double[2], yawAngle = new double[2];
+    //public GyroSensor gyro2;
+    //public ModernRoboticsI2cGyro gyro;
     public double gyroAngle;
     DcMotor leftMotor;
     DcMotor rightMotor;
     DcMotor middleMotor;
     HDrive2 calculator;
-    //AdafruitIMU boschBNO055;
+    I2cDevice imu;
+    AdafruitGyro adafruitImu;
     public HDriveTeleop(){
 
     }
@@ -40,7 +42,9 @@ public class HDriveTeleop extends OpMode {
         } catch (RobotCoreException e){
             Log.i("FtcRobotController", "Exception: " + e.getMessage());
         }*/
-        gyro2 = hardwareMap.gyroSensor.get("gyro");
+        //gyro2 = hardwareMap.gyroSensor.get("gyro");
+        imu = hardwareMap.i2cDevice.get("imu");
+        adafruitImu = new AdafruitGyro(imu);
         leftMotor = hardwareMap.dcMotor.get("leftMotor");
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
         middleMotor = hardwareMap.dcMotor.get("middleMotor");
@@ -48,7 +52,7 @@ public class HDriveTeleop extends OpMode {
         calculator = new HDrive2();
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         middleMotor.setDirection(DcMotor.Direction.REVERSE);
-        gyro = (ModernRoboticsI2cGyro)gyro2;
+        /*gyro = (ModernRoboticsI2cGyro)gyro2;
         gyro.calibrate();
         while(gyro.isCalibrating()){
             try {
@@ -57,7 +61,7 @@ public class HDriveTeleop extends OpMode {
             catch(InterruptedException e){
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
     public void loop(){
@@ -65,23 +69,13 @@ public class HDriveTeleop extends OpMode {
         float leftY = gamepad1.left_stick_y;
         float rightX = gamepad1.right_stick_x;
         float rightY = gamepad1.right_stick_y;
-        calculator.calculateMovement(leftX, leftY, rightX, gyro.getHeading());
+        calculator.calculateMovement(leftX, leftY, rightX, 0);
         leftMotor.setPower(calculator.getLeftDrive());
         rightMotor.setPower(calculator.getRightDrive());
         middleMotor.setPower(calculator.getMiddleDrive());
+        double[] gyroResults = adafruitImu.getAngles();
+        telemetry.addData("Text", "Gyro yaw: " + gyroResults[0] + " " + gyroResults[1] + " " + gyroResults[2]);
 
-        /*boschBNO055.getIMUGyroAngles(rollAngle, pitchAngle, yawAngle);
-		/*
-		 * Send whatever telemetry data you want back to driver station.
-		 */
-        //telemetry.addData("Text", "*** Robot Data***");
-        /*telemetry.addData("Headings(yaw): ",
-                String.format("Euler= %4.5f, Quaternion calculated= %4.5f", yawAngle[0], yawAngle[1]));
-        telemetry.addData("Pitches: ",
-                String.format("Euler= %4.5f, Quaternion calculated= %4.5f", pitchAngle[0], pitchAngle[1]));
-        telemetry.addData("Max I2C read interval: ",
-                String.format("%4.4f ms. Average interval: %4.4f ms.", boschBNO055.maxReadInterval
-                        , boschBNO055.avgReadInterval));*/
 
     }
 }

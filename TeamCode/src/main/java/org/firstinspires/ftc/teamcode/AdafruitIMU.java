@@ -249,7 +249,7 @@ public class AdafruitIMU implements HardwareDevice, I2cController.I2cPortReadyCa
   //The following arrays contain the offsets recorded at initialization time, both the Euler angles
   // reported by the IMU (indices = 0) AND the Tait-Bryan angles calculated from the 4 components of
   // the quaternion vector (indices = 1)
-  private double[] rollOffset = new double[2], pitchOffset = new double[2], yawOffset = new double[2];
+  private volatile double[] rollOffset = new double[2], pitchOffset = new double[2], yawOffset = new double[2];
   /* For IMU mode, the register addresses 0X1A thru 0X2D (20 bytes) should be read consecutively */
   /* Enable I2C Read Mode and address the bytes in the ReadCache using the following parameters: */
   private int numberOfRegisters = 20;
