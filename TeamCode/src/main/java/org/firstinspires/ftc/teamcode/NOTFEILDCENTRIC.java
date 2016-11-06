@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
  */
 @TeleOp(name= "HDrive: Not Field Centric")
 public class NOTFEILDCENTRIC extends OpMode {
-    public GyroSensor gyro2;
+
     public ModernRoboticsI2cGyro gyro;
     public double gyroAngle;
     DcMotor leftMotor;
@@ -22,23 +22,16 @@ public class NOTFEILDCENTRIC extends OpMode {
 
     }
     public void init(){
-        gyro2 = hardwareMap.gyroSensor.get("gyro");
+
         leftMotor = hardwareMap.dcMotor.get("leftMotor");
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
         middleMotor = hardwareMap.dcMotor.get("middleMotor");
 
+
         calculator = new HDrive2();
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        gyro = (ModernRoboticsI2cGyro)gyro2;
-        gyro.calibrate();
-        while(gyro.isCalibrating()){
-            try {
-                Thread.sleep(50);
-            }
-            catch(InterruptedException e){
-                e.printStackTrace();
-            }
-        }
+        middleMotor.setDirection(DcMotor.Direction.REVERSE);
+
     }
 
     public void loop(){

@@ -48,8 +48,8 @@ public class IMUtest extends OpMode {
     //BUT DAVID PIERCE, MENTOR OF TEAM 8886, HAS EXAMINED THE SCHEMATIC FOR THE ADAFRUIT BOARD ON
     //WHICH THE IMU CHIP IS MOUNTED. SINCE THE SCHEMATIC SHOWS THAT THE COM3 PIN IS PULLED LOW,
     //ADDRESS_A IS THE IMU'S OPERATIVE I2C BUS ADDRESS
-    //IMU is an appropriate operational mode for FTC competitions. (See the IMU datasheet, Table
     // 3-3, p.20 and Table 3-5, p.21.)
+    //IMU is an appropriate operational mode for FTC competitions. (See the IMU datasheet, Table
   }
 
   /************************************************************************************************
