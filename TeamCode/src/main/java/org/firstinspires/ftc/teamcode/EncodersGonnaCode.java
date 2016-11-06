@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
@@ -40,9 +41,11 @@ public class EncodersGonnaCode extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.6;
     static final double     TURN_SPEED              = 0.5;
+    TouchSensor             touchsensor;
 
 
     public void runOpMode() throws InterruptedException {
+        touchsensor = hardwareMap.touchSensor.get("touch_sensor");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -98,11 +101,33 @@ public class EncodersGonnaCode extends LinearOpMode {
         telemetry.update();
 
         waitForStart();
+
+
+
+
+
+
+
+
+
         Thread.sleep(500);
-        angles = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);
-        angleDouble = formatAngle(angles.angleUnit, angles.firstAngle);
-        initialAngle = Double.parseDouble(angleDouble);
-        Thread.sleep(500);
+        while(!touchsensor.isPressed()) {//While touch sensor is not pressed
+            leftMotor.setPower(-.5); //Set left Motor Backwards
+            rightMotor.setPower(-.5); //Set right Motor Backwards
+            telemetry.addData("ButtonState",String.valueOf(touchsensor.isPressed())); //Print out button state
+            telemetry.update();
+        }
+        telemetry.addData("ButtonState", String.valueOf(touchsensor.isPressed())); //Print out button state
+        leftMotor.setPower(0); //Stop the left Motor
+        rightMotor.setPower(0); //Stop the Right Motor
+        Thread.sleep(1000); //Wait one second
+
+        encoderDrive(DRIVE_SPEED, 24,24, 100.0); //Drive let and right motors backwards 24-17 inches
+
+        angles = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);//Initialize gyro
+        angleDouble = formatAngle(angles.angleUnit, angles.firstAngle); //Initialize Gyro
+        initialAngle = Double.parseDouble(angleDouble); //Set the Gyro angle to Double (Originally String)
+        Thread.sleep(500); //Wait .5 seconds
         while(initialAngle<86.5) { // Subtract 3.5 degrees because the while has a delay or something
             rightMotor.setPower(.1);
             leftMotor.setPower(-.1);
@@ -126,36 +151,10 @@ public class EncodersGonnaCode extends LinearOpMode {
         telemetry.addData("Gyro Angle", angleDouble);
         telemetry.update();
         Thread.sleep(10000);
-           // Thread.sleep(12000);
-        /*try {
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        }*/
-        //encoderDrive(DRIVE_SPEED, 23, 23, 100.0);
         //encoderDrive(DRIVE_SPEED, -12, -12, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
         //encoderDriveMiddle(DRIVE_SPEED, 12, 5.0);
-       // encoderDrive(DRIVE_SPEED, 24,24,30.0);
-        /*for(int ii = 0; ii < 10; ii++) {
-            telemetry.clearAll();
-            angles = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);
-            angleDouble = formatAngle(angles.angleUnit, angles.firstAngle);
-            telemetry.addData("Gyro:      ", angleDouble);
-            gyroDouble = Double.parseDouble(angleDouble);
-            if(gyroDouble < 90) {
-                telemetry.addLine();
-                telemetry.addData("Gyro is less than 90 ", "Degrees");
-                telemetry.update();
-            }
-            else {
-                telemetry.addLine();
-                telemetry.addData("Gyro is greater than 90 Degrees", " Or your program is broken.. agaian...");
-                telemetry.addLine();
-                telemetry.addData("Probally", " Broken");
-                telemetry.update();
-            }
-            telemetry.update();
-            Thread.sleep(2000);
-        }*/
+
+
 
 
 
