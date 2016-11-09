@@ -1,13 +1,9 @@
 package org.firstinspires.ftc.teamcode;
-import android.util.Log;
-
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.I2cDevice;
 
@@ -16,20 +12,29 @@ import com.qualcomm.robotcore.hardware.I2cDevice;
  */
 @TeleOp(name= "HDriveTeleop")
 public class HDriveTeleop extends OpMode {
+<<<<<<< HEAD
     double[] rollAngle = new double[2], pitchAngle = new double[2], yawAngle = new double[2];
     //public GyroSensor gyro2;
     //public ModernRoboticsI2cGyro gyro;
+=======
+    public GyroSensor gyro2;
+    public ModernRoboticsI2cGyro gyro;
+>>>>>>> origin/master
     public double gyroAngle;
     DcMotor leftMotor;
     DcMotor rightMotor;
     DcMotor middleMotor;
     HDrive2 calculator;
+<<<<<<< HEAD
     I2cDevice imu;
     AdafruitGyro adafruitImu;
+=======
+>>>>>>> origin/master
     public HDriveTeleop(){
 
     }
     public void init(){
+<<<<<<< HEAD
         /*try {
             boschBNO055 = new AdafruitIMU(hardwareMap, "bno055"
 
@@ -45,14 +50,21 @@ public class HDriveTeleop extends OpMode {
         //gyro2 = hardwareMap.gyroSensor.get("gyro");
         imu = hardwareMap.i2cDevice.get("imu");
         adafruitImu = new AdafruitGyro(imu);
+=======
+        gyro2 = hardwareMap.gyroSensor.get("gyro");
+>>>>>>> origin/master
         leftMotor = hardwareMap.dcMotor.get("leftMotor");
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
         middleMotor = hardwareMap.dcMotor.get("middleMotor"); //luke is better
 
         calculator = new HDrive2();
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
+<<<<<<< HEAD
         middleMotor.setDirection(DcMotor.Direction.REVERSE);
         /*gyro = (ModernRoboticsI2cGyro)gyro2;
+=======
+        gyro = (ModernRoboticsI2cGyro)gyro2;
+>>>>>>> origin/master
         gyro.calibrate();
         while(gyro.isCalibrating()){
             try {
@@ -73,9 +85,12 @@ public class HDriveTeleop extends OpMode {
         leftMotor.setPower(calculator.getLeftDrive());
         rightMotor.setPower(calculator.getRightDrive());
         middleMotor.setPower(calculator.getMiddleDrive());
+<<<<<<< HEAD
         double[] gyroResults = adafruitImu.getAngles();
         telemetry.addData("Text", "Gyro yaw: " + gyroResults[0] + " " + gyroResults[1] + " " + gyroResults[2]);
 
 
+=======
+>>>>>>> origin/master
     }
 }
