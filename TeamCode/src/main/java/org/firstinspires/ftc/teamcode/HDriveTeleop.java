@@ -47,7 +47,7 @@ public class HDriveTeleop extends OpMode {
         adafruitImu = new AdafruitGyro(imu);
         leftMotor = hardwareMap.dcMotor.get("leftMotor");
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
-        middleMotor = hardwareMap.dcMotor.get("middleMotor");
+        middleMotor = hardwareMap.dcMotor.get("middleMotor"); //luke is better
 
         calculator = new HDrive2();
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
