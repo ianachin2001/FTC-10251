@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -29,7 +28,7 @@ import java.util.Locale;
  * Created by Luke on 9/25/2016.
  */
 @TeleOp(name= "EncodersGonnaCode", group = "HDrive")
-public class EncodersGonnaCode extends LinearOpMode {
+public class AutonomousBlue extends LinearOpMode {
     Orientation angles;
     BNO055IMU imu;
     private ElapsedTime runtime = new ElapsedTime();
@@ -56,7 +55,6 @@ public class EncodersGonnaCode extends LinearOpMode {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
         robot.init(hardwareMap);
         telemetry.addData("Status", "Resetting Encoders");    //
         telemetry.update();
@@ -68,17 +66,11 @@ public class EncodersGonnaCode extends LinearOpMode {
         DcMotorController controller2;
         Double gyroDouble;
         double initialAngle;
-
         leftMotor = hardwareMap.dcMotor.get("leftMotor");
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
         middleMotor = hardwareMap.dcMotor.get("middleMotor");
         controller = hardwareMap.dcMotorController.get("Motor Controller 1");
         controller2 = hardwareMap.dcMotorController.get("Motor Controller 2");
-
-            /*
-         * Initialize the drive system variables.
-         * The init() method of the hardware class does all the work here
-         */
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //
@@ -89,7 +81,6 @@ public class EncodersGonnaCode extends LinearOpMode {
         robot.rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.middleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         idle();
-
         robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.middleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -100,8 +91,10 @@ public class EncodersGonnaCode extends LinearOpMode {
                 robot.middleMotor.getCurrentPosition());
         telemetry.update();
 
+
         waitForStart();
 
+        //Start of Movement
 
 
 
@@ -110,47 +103,7 @@ public class EncodersGonnaCode extends LinearOpMode {
 
 
 
-        Thread.sleep(500);
-        while(!touchsensor.isPressed()) {//While touch sensor is not pressed
-            leftMotor.setPower(-.15); //Set left Motor Backwards
-            rightMotor.setPower(-.15); //Set right Motor Backwards
-            telemetry.addData("ButtonState",String.valueOf(touchsensor.isPressed())); //Print out button state
-            telemetry.update();
-        }
-        telemetry.addData("ButtonState", String.valueOf(touchsensor.isPressed())); //Print out button state
-        leftMotor.setPower(0); //Stop the left Motor
-        rightMotor.setPower(0); //Stop the Right Motor
-        Thread.sleep(1000); //Wait one second
 
-        encoderDrive(DRIVE_SPEED, 24,24, 100.0); //Drive let and right motors backwards 24-17 inches
-
-        angles = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);//Initialize gyro
-        angleDouble = formatAngle(angles.angleUnit, angles.firstAngle); //Initialize Gyro
-        initialAngle = Double.parseDouble(angleDouble); //Set the Gyro angle to Double (Originally String)
-        Thread.sleep(500); //Wait .5 seconds
-        while(initialAngle<86.5) { // Subtract 3.5 degrees because the while has a delay or something
-            rightMotor.setPower(.1);
-            leftMotor.setPower(-.1);
-            telemetry.clearAll();
-            telemetry.addData("Gyro Angle" , angleDouble);
-            telemetry.update();
-            angles = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);
-            angleDouble = formatAngle(angles.angleUnit, angles.firstAngle);
-            initialAngle = Double.parseDouble(angleDouble);
-        }
-        rightMotor.setPower(0);
-        leftMotor.setPower(0);
-        telemetry.clearAll();
-        telemetry.addData("Turned 90" , "Degrees");
-        telemetry.update();
-        Thread.sleep(1000);
-        angles = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);
-        angleDouble = formatAngle(angles.angleUnit, angles.firstAngle);
-        initialAngle = Double.parseDouble(angleDouble);
-        telemetry.clearAll();
-        telemetry.addData("Gyro Angle", angleDouble);
-        telemetry.update();
-        Thread.sleep(10000);
         //encoderDrive(DRIVE_SPEED, -12, -12, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
         //encoderDriveMiddle(DRIVE_SPEED, 12, 5.0);
 
@@ -164,7 +117,7 @@ public class EncodersGonnaCode extends LinearOpMode {
 
 
     public void encoderDriveMiddle(double speed,double middleInches,
-                             double timeoutS) throws InterruptedException {
+                                   double timeoutS) throws InterruptedException {
 
 
 
@@ -216,7 +169,7 @@ public class EncodersGonnaCode extends LinearOpMode {
         }
     }
     public void encoderDrive(double speed,//int leftDistance, int rightDistance,
-                           double leftInches, double rightInches,
+                             double leftInches, double rightInches,
                              double timeoutS) throws InterruptedException {
 
 
