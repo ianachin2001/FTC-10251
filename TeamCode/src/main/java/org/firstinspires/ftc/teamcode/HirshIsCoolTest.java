@@ -1,7 +1,7 @@
-package org.firstinspires.ftc.teamcode;
+/*package org.firstinspires.ftc.teamcode;
 import android.util.Log;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+/*import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 <<<<<<< HEAD
 =======
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 
 /**
  * Created by HIRSH on 8/18/2016.
- */
+
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -50,14 +50,14 @@ public class HirshIsCoolTest extends OpMode {
 }
 
 
-=======
+/*=======
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
 /**
 * Created by Luke on 8/18/2016.
-*/
+[
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -71,11 +71,9 @@ public class HirshIsCoolTest extends LinearOpMode {
             servo2.setPower(.2);
             Thread.sleep(1143);
            /* servo2.setPower(0.0);
-            Thread.sleep(4000);*/
-            servo2.setPower(-.2);
-            Thread.sleep(1143);
+            Thread.sleep(4000);
 
     }
 
 }
->>>>>>> 24c8a2ff022ce31916266d97ec9b1a7a72fceb6d
+>>>>>>> 24c8a2ff022ce31916266d97ec9b1a7a72fceb6d*/

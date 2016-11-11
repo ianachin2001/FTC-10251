@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+/*package org.firstinspires.ftc.teamcode;
 <<<<<<< HEAD
 import android.util.Log;
 
@@ -29,7 +29,6 @@ import com.qualcomm.robotcore.hardware.I2cDevice;
 
 /**
  * Created by HIRSH on 8/18/2016.
- */
 @TeleOp(name= "HDriveTeleop")
 public class HDriveTeleop extends OpMode {
 <<<<<<< HEAD
@@ -86,7 +85,7 @@ public class HDriveTeleop extends OpMode {
                    , (byte)AdafruitIMU.OPERATION_MODE_IMU);
        } catch (RobotCoreException e){
            Log.i("FtcRobotController", "Exception: " + e.getMessage());
-       }*/
+       }
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -108,7 +107,7 @@ public class HDriveTeleop extends OpMode {
                     , (byte)AdafruitIMU.OPERATION_MODE_IMU);
         } catch (RobotCoreException e){
             Log.i("FtcRobotController", "Exception: " + e.getMessage());
-        }*/
+        }
         //gyro2 = hardwareMap.gyroSensor.get("gyro");
         imu = hardwareMap.i2cDevice.get("imu");
         adafruitImu = new AdafruitGyro(imu);
@@ -143,7 +142,7 @@ public class HDriveTeleop extends OpMode {
             catch(InterruptedException e){
                 e.printStackTrace();
             }
-        }*/
+        }
 >>>>>>> 24c8a2ff022ce31916266d97ec9b1a7a72fceb6d
     }
 
@@ -170,7 +169,7 @@ public class HDriveTeleop extends OpMode {
                String.format("Euler= %4.5f, Quaternion calculated= %4.5f", pitchAngle[0], pitchAngle[1]));
        telemetry.addData("Max I2C read interval: ",
                String.format("%4.4f ms. Average interval: %4.4f ms.", boschBNO055.maxReadInterval
-                       , boschBNO055.avgReadInterval));*/
+                       , boschBNO055.avgReadInterval));
 =======
         calculator.calculateMovement(leftX, leftY, rightX, 0);
         leftMotor.setPower(calculator.getLeftDrive());
@@ -194,3 +193,4 @@ public class HDriveTeleop extends OpMode {
     }
 }
 
+*/
