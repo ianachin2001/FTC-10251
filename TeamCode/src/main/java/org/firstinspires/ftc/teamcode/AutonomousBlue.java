@@ -27,7 +27,7 @@ import java.util.Locale;
 /**
  * Created by Luke on 9/25/2016.
  */
-@TeleOp(name= "EncodersGonnaCode", group = "HDrive")
+@TeleOp(name= "Blue Autonomous", group = "HDrive")
 public class AutonomousBlue extends LinearOpMode {
     Orientation angles;
     BNO055IMU imu;
