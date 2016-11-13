@@ -16,7 +16,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -127,28 +126,13 @@ public class EncodersGonnaCode extends LinearOpMode {
 
 
 
-        Thread.sleep(500);
+
         for(VuforiaTrackable beac : beacons) {
-        OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) beac.getListener()).getPose();
-        VectorF translation = pose.getTranslation();
-
-
-            telemetry.addData(1 + "-Translation", translation.get(2)); //
-
-            double degreesToTurn = Math.toDegrees(Math.atan2(translation.get(2), translation.get(0))); //If phone is vertical, if landscape, then change first translation to translation(0)
-            telemetry.addData(1 + "-Degrees", degreesToTurn);
-
+            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) beac.getListener()).getPose();
+            Thread.sleep(500);
         }
-        middleMotor.setPower(.1);
-        VectorF translation = pose.getTranslation();
-            while(translation.get(2)>300) {
-                translation = pose.getTranslation();
-            }
-        middleMotor.setPower(0);
 
-
-
-            /*while(!touchsensor.isPressed()) {//While touch sensor is not pressed
+            while(!touchsensor.isPressed()) {//While touch sensor is not pressed
             leftMotor.setPower(-.15); //Set left Motor Backwards
             rightMotor.setPower(-.15); //Set right Motor Backwards
             telemetry.addData("ButtonState",String.valueOf(touchsensor.isPressed())); //Print out button state
@@ -195,7 +179,7 @@ public class EncodersGonnaCode extends LinearOpMode {
 
 
 
-*/
+
     }
 
 
