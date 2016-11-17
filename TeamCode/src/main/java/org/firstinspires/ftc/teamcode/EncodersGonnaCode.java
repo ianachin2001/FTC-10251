@@ -94,6 +94,7 @@ public class EncodersGonnaCode extends LinearOpMode {
         controller = hardwareMap.dcMotorController.get("Motor Controller 1");
         controller2 = hardwareMap.dcMotorController.get("Motor Controller 2");
 
+
             /*
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
@@ -122,15 +123,11 @@ public class EncodersGonnaCode extends LinearOpMode {
         waitForStart();
 
 
-        beacons.activate();
 
 
 
 
-        for(VuforiaTrackable beac : beacons) {
-            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) beac.getListener()).getPose();
-            Thread.sleep(500);
-        }
+
 
             while(!touchsensor.isPressed()) {//While touch sensor is not pressed
             leftMotor.setPower(-.15); //Set left Motor Backwards
@@ -196,7 +193,7 @@ public class EncodersGonnaCode extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newMiddleTarget = robot.middleMotor.getCurrentPosition() + (int)((middleInches+17) * COUNTS_PER_INCH);
+            newMiddleTarget = /*robot.middleMotor.getCurrentPosition() +*/ (int)((middleInches+17) * COUNTS_PER_INCH);
 
             robot.middleMotor.setTargetPosition(newMiddleTarget);
 

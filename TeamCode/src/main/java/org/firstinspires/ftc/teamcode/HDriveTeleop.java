@@ -72,7 +72,7 @@ public class HDriveTeleop extends OpMode {
         calculator.calculateMovement(leftX, leftY, rightX, Double.parseDouble(angleDouble));
         leftMotor.setPower(.7*calculator.getLeftDrive());
         rightMotor.setPower(.7*calculator.getRightDrive());
-        middleMotor.setPower(calculator.getMiddleDrive());
+        middleMotor.setPower(-calculator.getMiddleDrive());
 
     }
     String formatAngle(AngleUnit angleUnit, double angle) {

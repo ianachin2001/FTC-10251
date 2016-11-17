@@ -34,16 +34,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @Autonomous(name= "Servo")
 public class HirshIsCoolTest extends LinearOpMode {
     @Override
-        public void runOpMode() throws InterruptedException{
-        CRServo servo2 = this.hardwareMap.crservo.get("servo2");
-            waitForStart();
-            servo2.setPower(.2);
-            Thread.sleep(1143);
-           /* servo2.setPower(0.0);
-            Thread.sleep(4000);*/
-            servo2.setPower(-.2);
-            Thread.sleep(1143);
+    public void runOpMode() throws InterruptedException {
+        CRServo servo = this.hardwareMap.crservo.get("servo2");
+        waitForStart();
+        servo.setPower(.2);
+        Thread.sleep(100);
 
     }
-
 }

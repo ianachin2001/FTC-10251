@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-
+/*
 import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -9,11 +9,11 @@ import com.qualcomm.robotcore.exception.RobotCoreException;
 
 
 /**
- * Created by Owner on 8/31/2015.
- */
+ * eated by Owner on 8/31/2015.
+
 @TeleOp(name= "ImuTest")
 public class IMUtest extends OpMode {
-
+/*
   AdafruitIMU boschBNO055;
 
   //The following arrays contain both the Euler angles reported by the IMU (indices = 0) AND the
@@ -26,7 +26,7 @@ public class IMUtest extends OpMode {
   /************************************************************************************************
    * The following method was introduced in the 3 August 2015 FTC SDK beta release and it runs
    * before "start" runs.
-   */
+
   @Override
   public void init() {
     systemTime = System.nanoTime();
@@ -55,7 +55,7 @@ public class IMUtest extends OpMode {
   /************************************************************************************************
    * Code to run when the op mode is first enabled goes here
    * @see OpMode#start()
-   */
+
   @Override
   public void start() {
         /*
@@ -64,7 +64,7 @@ public class IMUtest extends OpMode {
       	* configured your robot and created the configuration file. The hardware map
       	* for this OpMode is not initialized until the OpModeManager's "startActiveOpMode" method
       	* runs.
-    		*/
+
     systemTime = System.nanoTime();
     boschBNO055.startIMU();//Set up the IMU as needed for a continual stream of I2C reads.
     Log.i("FtcRobotController", "IMU Start method finished in: "
@@ -80,7 +80,8 @@ public class IMUtest extends OpMode {
    * 2. WRITE MOTOR POWER AND CONTROL VALUES STORED IN SHARED VARIABLES BY "WORKER" THREADS, AND
    * 3. SEND TELELMETRY DATA TO THE DRIVER STATION
    * THIS "loop" METHOD IS THE ONLY ONE THAT "TOUCHES" ANY SENSOR OR MOTOR HARDWARE.
-   */
+
+
   @Override
   public void loop() {
     //Log.i("FtcRobotController", "Loop method starting at: " +
@@ -92,7 +93,7 @@ public class IMUtest extends OpMode {
     boschBNO055.getIMUGyroAngles(rollAngle, pitchAngle, yawAngle);
 		/*
 		 * Send whatever telemetry data you want back to driver station.
-		 */
+
     //telemetry.addData("Text", "*** Robot Data***");
     telemetry.addData("Headings(yaw): ",
       String.format("Euler= %4.5f, Quaternion calculated= %4.5f", yawAngle[0], yawAngle[1]));
@@ -106,7 +107,7 @@ public class IMUtest extends OpMode {
   /*
   * Code to run when the op mode is first disabled goes here
   * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#stop()
-  */
+
   @Override
   public void stop() {
     //When the FTC Driver Station's "Start with Timer" button commands autonomous mode to start,
@@ -116,4 +117,6 @@ public class IMUtest extends OpMode {
     Log.i("FtcRobotController", "IMU Stop method finished in: "
                                     + (-(systemTime - (systemTime = System.nanoTime()))) + " ns.");
   }
+
 }
+*/
