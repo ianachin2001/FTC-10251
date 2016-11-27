@@ -28,7 +28,11 @@ import java.util.Locale;
 /**
  * Created by Luke on 9/25/2016.
  */
+<<<<<<< HEAD
 @TeleOp(name= "Run Until Beacon", group = "HDrive")
+=======
+@TeleOp(name= "Blue Autonomous", group = "HDrive")
+>>>>>>> origin/master
 public class AutonomousBlue extends LinearOpMode {
     AnalogInput distanceSensor;
     HardwareHDrive robot   = new HardwareHDrive();   // Use a HDrive's hardware

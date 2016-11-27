@@ -14,6 +14,8 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -22,6 +24,10 @@ import com.qualcomm.hardware.adafruit.JustLoggingAccelerationIntegrator;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import java.util.Locale;
 
@@ -45,6 +51,19 @@ public class EncodersGonnaCode extends LinearOpMode {
 
 
     public void runOpMode() throws InterruptedException {
+        VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
+        params.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        params.vuforiaLicenseKey = "AdauJ9r/////AAAAGQ8T4+ND3kBNj3ASq3Yz50YOL+BYwmGKT4RocYSdmEwHIwh0JAjJ2xBBwv4n3+XZObZ700pc3hmcmq+ySQEVAnKkPGq7aCpOtkGTlxQ+EJlbEu3BhSdjSeBPqYC3bxd8cEDUkdCAWCzshMdeXgknPQYwZZgzGCQAFrZquqDkiIvcq9zefTCXEO/NYjS7uC1yUQZD5wJGBBStkCQpVzg9TqzWVn6qh27dDEpfhU2VrSHh29cjMO7UWAneARLViJ7EV8337KNU5GIcn5y4AUNNXbc2M73nUOvGLeMxESvPciGdnejTTe4AG/G53LrFn1UNJB0qTg4dkkbxmjQjixbjY/P57O4TC+woidwZJpsMKkEF";
+        params.cameraMonitorFeedback = VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES;
+
+        VuforiaLocalizer vuforia = ClassFactory.createVuforiaLocalizer(params);
+        //Vuforia.setHint(HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS,4);
+
+        VuforiaTrackables beacons = vuforia.loadTrackablesFromAsset("FTC_2016-17");
+        beacons.get(0).setName("Wheels");
+        beacons.get(1).setName("Tools");
+        beacons.get(2).setName("Lego");
+        beacons.get(3).setName("Gears");
         touchsensor = hardwareMap.touchSensor.get("touch_sensor");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -103,15 +122,17 @@ public class EncodersGonnaCode extends LinearOpMode {
         waitForStart();
 
 
+        beacons.activate();
 
 
 
 
+        for(VuforiaTrackable beac : beacons) {
+            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) beac.getListener()).getPose();
+            Thread.sleep(500);
+        }
 
-
-
-        Thread.sleep(500);
-        while(!touchsensor.isPressed()) {//While touch sensor is not pressed
+            while(!touchsensor.isPressed()) {//While touch sensor is not pressed
             leftMotor.setPower(-.15); //Set left Motor Backwards
             rightMotor.setPower(-.15); //Set right Motor Backwards
             telemetry.addData("ButtonState",String.valueOf(touchsensor.isPressed())); //Print out button state
