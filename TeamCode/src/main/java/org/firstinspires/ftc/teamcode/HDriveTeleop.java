@@ -20,28 +20,38 @@ import com.qualcomm.robotcore.hardware.DcMotor;
         import org.firstinspires.ftc.robotcore.external.navigation.Position;
         import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
+
         import java.util.Locale;
 
 
-// * Created by HIRSH on 8/18/2016.
+// * Created by definitly not HIRSH as he would mess it up and it would explode on 8/18/2016.
 
-@TeleOp(name= "HDriveTeleop")
+@TeleOp(name= "HDriveTeleop Field Centric")
 public class HDriveTeleop extends OpMode {
     double[] rollAngle = new double[2], pitchAngle = new double[2], yawAngle = new double[2];
      Orientation angles;
     BNO055IMU imu;
     String angleDouble = "hi";
     public double gyroAngle;
+    boolean speedMode = false;
     DcMotor leftMotor;
     DcMotor rightMotor;
     DcMotor middleMotor;
+    boolean countUp = false;
+    int countsinceapressed = 0;
     //HDrive2 calculator;
     HDriveFCCalc calculator;
-    CRServo servo;
+    Servo servo2;
+    double armAngle = .5;
+    int i = 0;
+
     public HDriveTeleop(){
 
     }
     public void init(){
+
             BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
             parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
             parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -55,24 +65,92 @@ public class HDriveTeleop extends OpMode {
             leftMotor = hardwareMap.dcMotor.get("leftMotor");
             rightMotor = hardwareMap.dcMotor.get("rightMotor");
             middleMotor = hardwareMap.dcMotor.get("middleMotor");
+            servo2 = hardwareMap.servo.get("servo2");
 
-            calculator = new HDriveFCCalc();
+
+        calculator = new HDriveFCCalc();
             //servo = hardwareMap.crservo.get("servo");
             leftMotor.setDirection(DcMotor.Direction.REVERSE);
             middleMotor.setDirection(DcMotor.Direction.REVERSE);
+
     }
 
     public void loop(){
+        int i = 0;
         angles   = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);
         angleDouble = formatAngle(angles.angleUnit, angles.firstAngle);
         float leftX = gamepad1.left_stick_x;
         float leftY = gamepad1.left_stick_y;
         float rightX = gamepad1.right_stick_x;
         float rightY = gamepad1.right_stick_y;
+        float left = gamepad1.left_trigger;
+        float right = gamepad1.right_trigger;
+        boolean buttonAPressed = gamepad1.a;
+        if(countUp){
+            if(countsinceapressed < 10){
+                countsinceapressed++;
+            }
+            else{
+                countUp = false;
+                countsinceapressed = 0;
+            }
+        }
+        if(buttonAPressed&& !countUp){
+            countUp = true;
+            if(speedMode == false){
+                speedMode = true;
+                leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                middleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                telemetry.addData("Mode", "Speed");
+                telemetry.update();
+            }
+            else if(speedMode == true){
+                speedMode = false;
+                leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                middleMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                telemetry.addData("Mode", "Power");
+                telemetry.update();
+            }
+        }
         calculator.calculateMovement(leftX, leftY, rightX, Double.parseDouble(angleDouble));
-        leftMotor.setPower(.7*calculator.getLeftDrive());
-        rightMotor.setPower(.7*calculator.getRightDrive());
-        middleMotor.setPower(-calculator.getMiddleDrive());
+        if(!speedMode) {
+            leftMotor.setPower(.7 * calculator.getLeftDrive());
+            rightMotor.setPower(.7 * calculator.getRightDrive());
+            middleMotor.setPower(-calculator.getMiddleDrive());
+        }
+        else{
+            leftMotor.setPower(calculator.getLeftDrive());
+            rightMotor.setPower(calculator.getRightDrive());
+            middleMotor.setPower(-calculator.getMiddleDrive());
+        }
+        if(left > 0) {
+            armAngle = armAngle - .01;
+            try {
+                Thread.sleep(20);
+            }
+            catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        if(right > 0) {
+            armAngle = armAngle + .01;
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        if(gamepad1.left_bumper == true) {
+            leftMotor.setPower(-.1);
+            rightMotor.setPower(-.1);
+        }
+        if(gamepad1.right_bumper == true) {
+            leftMotor.setPower(.1);
+            rightMotor.setPower(.1);
+        }
+        servo2.setPosition(armAngle);
 
     }
     String formatAngle(AngleUnit angleUnit, double angle) {
