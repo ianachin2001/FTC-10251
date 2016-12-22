@@ -40,7 +40,7 @@ import java.util.Locale;
 /**
  * Created by Luke on 9/25/2016.
  */
-@TeleOp(name= "Blue Autonomous", group = "HDrive")
+@TeleOp(name= "Red Autonomous", group = "HDrive")
 public class AutonomousRed extends LinearOpMode {
 
     Orientation angles;
@@ -134,19 +134,17 @@ public class AutonomousRed extends LinearOpMode {
 
         waitForStart();
 
-        encoderDrive(0.7, -25,-25, 100.0); //Drive let and right motors backwards 24-17 inches
-        Thread.sleep(1000);
-
-        Thread.sleep(100);
-        encoderDriveMiddle(.3,-41,20.0);
+        encoderDrive(0.7, -43,-43, 100.0); //Drive let and right motors backwards 24-17 inches
+        Thread.sleep(300);
+        encoderDriveMiddle(.3,43,20.0);
 
         leftMotor.setPower(0); //Stop the left Motor
         rightMotor.setPower(0); //Stop the Right Motor
         middleMotor.setPower(0);
         middleMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        middleMotor.setPower(-.2);
+        middleMotor.setPower(-.1);
         int x = 0;
-        while(x < 4) {
+        while(x < 3) {
             x++;
             Thread.sleep(500);
         }
@@ -175,6 +173,7 @@ public class AutonomousRed extends LinearOpMode {
         robot.middleMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         Thread.sleep(300);
         servo2.setPosition(1);
+        middleMotor.setPower(-.1);
         while(distanceSensor.getVoltage() < .7) {
             leftMotor.setPower(-.1);
             rightMotor.setPower(-.1);
@@ -184,41 +183,73 @@ public class AutonomousRed extends LinearOpMode {
         Thread.sleep(100);
         leftMotor.setPower(0);
         rightMotor.setPower(0);
+        middleMotor.setPower(0);
         Thread.sleep(100);
         if(sensorRGB.red() > sensorRGB.blue()) {
             telemetry.addData("Color", "Red");
-            leftMotor.setPower(-.2);
-            rightMotor.setPower(-.2);
-            middleMotor.setPower(-.01);
-            Thread.sleep(700);
+            middleMotor.setPower(-.1);
+            Thread.sleep(1400);
+            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            idle();
+            leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            encoderDrive(-.1,-5,-5,20);
             servo2.setPosition(.5);
-            leftMotor.setPower(0);
-            rightMotor.setPower(0);
-            leftMotor.setPower(-.1);
-            rightMotor.setPower(-.1);
-            middleMotor.setPower(-.01);
-            Thread.sleep(3000);
+            Thread.sleep(100);
+            servo2.setPosition(1);
+            Thread.sleep(800);
+            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            idle();
+            leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            encoderDrive(-.2,-8,-8,20);
             leftMotor.setPower(0);
             rightMotor.setPower(0);
             middleMotor.setPower(0);
-            Thread.sleep(250);
             servo2.setPosition(1);
+
+
+            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            idle();
+            leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            middleMotor.setPower(-.1);
+            encoderDrive(.6, -21, -21, 20.0);
+            Thread.sleep(100);
+            middleMotor.setPower(0);
         }
         else if(sensorRGB.blue() > sensorRGB.red()) {
             telemetry.addData("Color", "Blue");
             Thread.sleep(100);
             servo2.setPosition(.5);
+            Thread.sleep(100);
+            servo2.setPosition(1);
             leftMotor.setPower(0);
             rightMotor.setPower(0);
-            Thread.sleep(200);
-            leftMotor.setPower(-.2);
-            rightMotor.setPower(-.2);
-            middleMotor.setPower(-.01);
-            Thread.sleep(700);
-            leftMotor.setPower(0);
-            rightMotor.setPower(0);
+            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            idle();
+            leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            encoderDrive(-.1,-10,-10,20);
+            middleMotor.setPower(-.1);
+            Thread.sleep(1400);
             middleMotor.setPower(0);
             servo2.setPosition(1);
+
+
+            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            idle();
+            leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            middleMotor.setPower(-.1);
+            encoderDrive(.6, -26, -26, 20.0);
+            Thread.sleep(100);
+            middleMotor.setPower(0);
 
         }
         else {
@@ -228,33 +259,24 @@ public class AutonomousRed extends LinearOpMode {
         //middleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        idle();
-
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        middleMotor.setPower(-.01);
-        encoderDrive(.2, -16, -16, 20.0);
-        middleMotor.setPower(0);
         servo2.setPosition(1);
         Thread.sleep(100);
         middleMotor.setPower(0);
         while(distanceSensor.getVoltage() < .7) {
-            leftMotor.setPower(-.1);
-            rightMotor.setPower(-.1);
-            middleMotor.setPower(-.01);
+            leftMotor.setPower(-.2);
+            rightMotor.setPower(-.2);
+            middleMotor.setPower(-.1);
         }
         Thread.sleep(250);
         leftMotor.setPower(0);
         rightMotor.setPower(0);
         middleMotor.setPower(0);
-        Thread.sleep(1000);
+        Thread.sleep(100);
         if(sensorRGB.red() > sensorRGB.blue()) {
             telemetry.addData("Color", "Red");
             leftMotor.setPower(-.4);
             rightMotor.setPower(-.4);
-            middleMotor.setPower(-.01);
+            middleMotor.setPower(-.1);
             Thread.sleep(300);
             servo2.setPosition(.5);
             leftMotor.setPower(0);
@@ -262,7 +284,7 @@ public class AutonomousRed extends LinearOpMode {
             Thread.sleep(100);
             leftMotor.setPower(-.1);
             rightMotor.setPower(-.1);
-            middleMotor.setPower(-.01);
+            middleMotor.setPower(-.1);
             Thread.sleep(2000);
             leftMotor.setPower(0);
             rightMotor.setPower(0);
@@ -276,11 +298,11 @@ public class AutonomousRed extends LinearOpMode {
             servo2.setPosition(.5);
             leftMotor.setPower(0);
             rightMotor.setPower(0);
-            middleMotor.setPower(-.01);
+            middleMotor.setPower(-.1);
             Thread.sleep(200);
             leftMotor.setPower(-.1);
             rightMotor.setPower(-.1);
-            middleMotor.setPower(-.01);
+            middleMotor.setPower(-.1);
             Thread.sleep(1300);
             leftMotor.setPower(0);
             rightMotor.setPower(0);
@@ -337,8 +359,8 @@ public class AutonomousRed extends LinearOpMode {
 
 
     public void encoderDriveMiddle(double speed,//int leftDistance, int rightDistance,
-                             double middleInches,
-                             double timeoutS) throws InterruptedException {
+                                   double middleInches,
+                                   double timeoutS) throws InterruptedException {
 
         int newMiddleTarget;
 
@@ -354,7 +376,7 @@ public class AutonomousRed extends LinearOpMode {
 
             // reset the timeout time and start motion.
             runtime.reset();
-            robot.middleMotor.setPower(Math.abs(speed));
+            robot.middleMotor.setPower(speed);
 
 
             // keep looping while we are still active, and there is time left, and both motors are running.
@@ -396,8 +418,8 @@ public class AutonomousRed extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = /*robot.leftMotor.getCurrentPosition() + */(int)((leftInches-18) * COUNTS_PER_INCH);
-            newRightTarget = /*robot.rightMotor.getCurrentPosition() + */(int)((rightInches-18) * COUNTS_PER_INCH);
+            newLeftTarget = /*robot.leftMotor.getCurrentPosition() + */(int)((leftInches) * COUNTS_PER_INCH);
+            newRightTarget = /*robot.rightMotor.getCurrentPosition() + */(int)((rightInches) * COUNTS_PER_INCH);
             robot.leftMotor.setTargetPosition(newLeftTarget);
             robot.rightMotor.setTargetPosition(newRightTarget);
             // Turn On RUN_TO_POSITION
@@ -406,8 +428,8 @@ public class AutonomousRed extends LinearOpMode {
 
             // reset the timeout time and start motion.
             runtime.reset();
-            robot.leftMotor.setPower(Math.abs(speed));
-            robot.rightMotor.setPower(Math.abs(speed));
+            robot.leftMotor.setPower(speed);
+            robot.rightMotor.setPower(speed);
 
 
             // keep looping while we are still active, and there is time left, and both motors are running.

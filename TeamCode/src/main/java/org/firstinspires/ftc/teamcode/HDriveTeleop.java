@@ -22,7 +22,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
-
+import com.qualcomm.robotcore.hardware.DigitalChannel;
         import java.util.Locale;
 
 
@@ -39,13 +39,20 @@ public class HDriveTeleop extends OpMode {
     DcMotor leftMotor;
     DcMotor rightMotor;
     DcMotor middleMotor;
+    DcMotor shooter;
     boolean countUp = false;
     int countsinceapressed = 0;
+    boolean countUp2 = false;
+    int countsincebpressed = 0;
     //HDrive2 calculator;
     HDriveFCCalc calculator;
     Servo servo2;
     double armAngle = .5;
-    int i = 0;
+    double offset = 0;
+    int encoder = 0;
+    boolean yulienNotAnA = false;
+    boolean hulianNotAnH = false;
+    Servo buttonPusher;
 
     public HDriveTeleop(){
 
@@ -65,13 +72,18 @@ public class HDriveTeleop extends OpMode {
             leftMotor = hardwareMap.dcMotor.get("leftMotor");
             rightMotor = hardwareMap.dcMotor.get("rightMotor");
             middleMotor = hardwareMap.dcMotor.get("middleMotor");
-            servo2 = hardwareMap.servo.get("servo2");
+            shooter = hardwareMap.dcMotor.get("shooter");
+            //servo2 = hardwareMap.servo.get("servo2");
+        buttonPusher = hardwareMap.servo.get("PPAP");
+
 
 
         calculator = new HDriveFCCalc();
             //servo = hardwareMap.crservo.get("servo");
             leftMotor.setDirection(DcMotor.Direction.REVERSE);
             middleMotor.setDirection(DcMotor.Direction.REVERSE);
+        //shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
@@ -85,7 +97,12 @@ public class HDriveTeleop extends OpMode {
         float rightY = gamepad1.right_stick_y;
         float left = gamepad1.left_trigger;
         float right = gamepad1.right_trigger;
+        float leftTrigger = gamepad2.left_trigger;
+        float rightTrigger = gamepad2.right_trigger;
         boolean buttonAPressed = gamepad1.a;
+        boolean buttonXPressed = gamepad1.x;
+        boolean buttonAPressed2 = gamepad2.a;
+        boolean buttonXPressed2 = gamepad2.x;
         if(countUp){
             if(countsinceapressed < 10){
                 countsinceapressed++;
@@ -95,17 +112,16 @@ public class HDriveTeleop extends OpMode {
                 countsinceapressed = 0;
             }
         }
-        if(buttonAPressed&& !countUp){
+        if(buttonAPressed&& !countUp) {
             countUp = true;
-            if(speedMode == false){
+            if (speedMode == false) {
                 speedMode = true;
                 leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 middleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 telemetry.addData("Mode", "Speed");
                 telemetry.update();
-            }
-            else if(speedMode == true){
+            } else if (speedMode == true) {
                 speedMode = false;
                 leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -114,7 +130,23 @@ public class HDriveTeleop extends OpMode {
                 telemetry.update();
             }
         }
-        calculator.calculateMovement(leftX, leftY, rightX, Double.parseDouble(angleDouble));
+       // telemetry.addData("Encoder Position", shooter.getCurrentPosition());
+        telemetry.addData("Angle", Double.parseDouble(angleDouble)+offset);
+        telemetry.addData("Left Trigger", gamepad1.left_trigger);
+        telemetry.addData("Left Stick X" , gamepad1.left_stick_x);
+        telemetry.addData("Right Stick Y" , gamepad1.right_stick_x);
+        telemetry.addData("Left Stick X" , gamepad1.left_stick_y);
+        telemetry.addData("Right Stick Y" , gamepad1.right_stick_y);
+        telemetry.update();
+
+
+        if(buttonXPressed == true){
+            offset = Double.parseDouble(angleDouble);
+            offset = -offset;
+        }
+
+
+        calculator.calculateMovement(leftX, leftY, rightX, Double.parseDouble(angleDouble)+offset);
         if(!speedMode) {
             leftMotor.setPower(.7 * calculator.getLeftDrive());
             rightMotor.setPower(.7 * calculator.getRightDrive());
@@ -126,21 +158,10 @@ public class HDriveTeleop extends OpMode {
             middleMotor.setPower(-calculator.getMiddleDrive());
         }
         if(left > 0) {
-            armAngle = armAngle - .01;
-            try {
-                Thread.sleep(20);
-            }
-            catch(InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }
+            buttonPusher.setPosition(1);
         }
         if(right > 0) {
-            armAngle = armAngle + .01;
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }
+            buttonPusher.setPosition(-.5);
         }
         if(gamepad1.left_bumper == true) {
             leftMotor.setPower(-.1);
@@ -150,13 +171,35 @@ public class HDriveTeleop extends OpMode {
             leftMotor.setPower(.1);
             rightMotor.setPower(.1);
         }
-        servo2.setPosition(armAngle);
+        /*if(buttonAPressed2) {
+            shooter.setTargetPosition(1040);
+            shooter.setPower(.5);
+            shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            yulienNotAnA = true;
+        }
+        if(shooter.getCurrentPosition() == 1040 && yulienNotAnA) {
+            shooter.setPower(0);
+            yulienNotAnA = false;
+        }
+        if(buttonXPressed2) {
+            shooter.setTargetPosition(500);
+            shooter.setPower(.5);
+            shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            hulianNotAnH = true;
+        }
+        //set to maximum overdrive
+        if(shooter.getCurrentPosition() == 500 && hulianNotAnH == true) {
+            shooter.setPower(0);
+            hulianNotAnH = false;
+        }
+        servo2.setPosition(armAngle);*/
+
 
     }
     String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
-    String formatDegrees(double degrees){
+    String formatDegrees(double degrees) {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 }

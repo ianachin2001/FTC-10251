@@ -40,7 +40,7 @@ import java.util.Locale;
 /**
  * Created by Luke on 9/25/2016.
  */
-@TeleOp(name= "Red Autonomous", group = "HDrive")
+@TeleOp(name= "Blue Autonomous", group = "HDrive")
 public class AutonomousBlue extends LinearOpMode {
 
     Orientation angles;
@@ -133,25 +133,18 @@ public class AutonomousBlue extends LinearOpMode {
         telemetry.update();
 
         waitForStart();
-        Thread.sleep(20000);
-        encoderDrive(.6,31,31,20);
-        servo2.setPosition(.2);
-        Thread.sleep(1000);
-        servo2.setPosition(0);
-        Thread.sleep(30000);
-        encoderDrive(0.5, -25,-25, 100.0); //Drive let and right motors backwards 24-17 inches
-        Thread.sleep(1000);
 
-        Thread.sleep(100);
-        encoderDriveMiddle(.3,41,20.0);
+        encoderDrive(0.7, -43,-43, 100.0); //Drive let and right motors backwards 24-17 inches
+        Thread.sleep(300);
+        encoderDriveMiddle(.3,-43,20.0);
 
-        Thread.sleep(600);
         leftMotor.setPower(0); //Stop the left Motor
         rightMotor.setPower(0); //Stop the Right Motor
         middleMotor.setPower(0);
-        middleMotor.setPower(.1);
+        middleMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        middleMotor.setPower(-.1);
         int x = 0;
-        while(x < 6) {
+        while(x < 3) {
             x++;
             Thread.sleep(500);
         }
@@ -177,67 +170,86 @@ public class AutonomousBlue extends LinearOpMode {
         middleMotor.setPower(0);
         telemetry.addData("Fin", "Fin");
         telemetry.update();*/
-
-        Thread.sleep(2000);
+        robot.middleMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        Thread.sleep(300);
         servo2.setPosition(1);
+        middleMotor.setPower(-.1);
         while(distanceSensor.getVoltage() < .7) {
             leftMotor.setPower(-.1);
             rightMotor.setPower(-.1);
             telemetry.addData("Distance Sensor", distanceSensor.getVoltage());
             telemetry.update();
         }
-        Thread.sleep(250);
+        Thread.sleep(100);
         leftMotor.setPower(0);
         rightMotor.setPower(0);
-        Thread.sleep(1000);
-        if(sensorRGB.red() < sensorRGB.blue()) {
+        middleMotor.setPower(0);
+        Thread.sleep(100);
+        if(sensorRGB.red() > sensorRGB.blue()) {
             telemetry.addData("Color", "Red");
-            leftMotor.setPower(-.1);
-            rightMotor.setPower(-.1);
-            middleMotor.setPower(.03);
-            Thread.sleep(1600);
-            servo2.setPosition(-.2);
-            leftMotor.setPower(0);
-            rightMotor.setPower(0);
-            Thread.sleep(500);
-            leftMotor.setPower(-.1);
-            rightMotor.setPower(-.1);
-            middleMotor.setPower(.01);
-            Thread.sleep(3000);
-            leftMotor.setPower(0);
-            rightMotor.setPower(0);
-            middleMotor.setPower(0);
-            Thread.sleep(250);
-            servo2.setPosition(0);
-            Thread.sleep(100);
-            servo2.setPosition(-.2);
-            Thread.sleep(100);
-            servo2.setPosition(0);
-            Thread.sleep(100);
-            servo2.setPosition(-.2);
-            Thread.sleep(100);
-            servo2.setPosition(0);
-            Thread.sleep(100);
-            servo2.setPosition(-.2);
-            Thread.sleep(100);
-            servo2.setPosition(0);
-        }
-        else if(sensorRGB.blue() < sensorRGB.red()) {
-            telemetry.addData("Color", "Blue");
-            Thread.sleep(400);
-            servo2.setPosition(-.2);
-            leftMotor.setPower(0);
-            rightMotor.setPower(0);
-            Thread.sleep(500);
-            leftMotor.setPower(-.1);
-            rightMotor.setPower(-.1);
-            middleMotor.setPower(.01);
+            middleMotor.setPower(-.1);
             Thread.sleep(1400);
+            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            idle();
+            leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            encoderDrive(-.1,-5,-5,20);
+            servo2.setPosition(.5);
+            Thread.sleep(100);
+            servo2.setPosition(1);
+            Thread.sleep(800);
+            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            idle();
+            leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            encoderDrive(-.2,-8,-8,20);
             leftMotor.setPower(0);
             rightMotor.setPower(0);
             middleMotor.setPower(0);
-            Thread.sleep(250);
-            servo2.setPosition(0);
+            servo2.setPosition(1);
+
+
+            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            idle();
+            leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            middleMotor.setPower(-.1);
+            encoderDrive(.6, -21, -21, 20.0);
+            Thread.sleep(100);
+            middleMotor.setPower(0);
+        }
+        else if(sensorRGB.blue() > sensorRGB.red()) {
+            telemetry.addData("Color", "Blue");
+            Thread.sleep(100);
+            servo2.setPosition(.5);
+            Thread.sleep(100);
+            servo2.setPosition(1);
+            leftMotor.setPower(0);
+            rightMotor.setPower(0);
+            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            idle();
+            leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            encoderDrive(-.1,-10,-10,20);
+            middleMotor.setPower(-.1);
+            Thread.sleep(1400);
+            middleMotor.setPower(0);
+            servo2.setPosition(1);
+
+
+            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            idle();
+            leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            middleMotor.setPower(-.1);
+            encoderDrive(.6, -26, -26, 20.0);
+            Thread.sleep(100);
+            middleMotor.setPower(0);
 
         }
         else {
@@ -247,84 +259,61 @@ public class AutonomousBlue extends LinearOpMode {
         //middleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        idle();
-
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        middleMotor.setPower(.05);
-        encoderDrive(.2, -20, -20, 20.0);
-        middleMotor.setPower(0);
-        servo2.setPosition(0);
-        Thread.sleep(1000);
+        servo2.setPosition(1);
+        Thread.sleep(100);
         middleMotor.setPower(0);
         while(distanceSensor.getVoltage() < .7) {
-            leftMotor.setPower(-.1);
-            rightMotor.setPower(-.1);
-            middleMotor.setPower(.2);
+            leftMotor.setPower(-.2);
+            rightMotor.setPower(-.2);
+            middleMotor.setPower(-.1);
         }
         Thread.sleep(250);
         leftMotor.setPower(0);
         rightMotor.setPower(0);
         middleMotor.setPower(0);
-        Thread.sleep(1000);
-        if(sensorRGB.red() < sensorRGB.blue()) {
+        Thread.sleep(100);
+        if(sensorRGB.red() > sensorRGB.blue()) {
             telemetry.addData("Color", "Red");
-            leftMotor.setPower(-.1);
-            rightMotor.setPower(-.1);
-            middleMotor.setPower(.01);
-            Thread.sleep(1600);
-            servo2.setPosition(-.2);
+            leftMotor.setPower(-.4);
+            rightMotor.setPower(-.4);
+            middleMotor.setPower(-.1);
+            Thread.sleep(300);
+            servo2.setPosition(.5);
             leftMotor.setPower(0);
             rightMotor.setPower(0);
-            Thread.sleep(500);
+            Thread.sleep(100);
             leftMotor.setPower(-.1);
             rightMotor.setPower(-.1);
-            middleMotor.setPower(.01);
-            Thread.sleep(3000);
+            middleMotor.setPower(-.1);
+            Thread.sleep(2000);
             leftMotor.setPower(0);
             rightMotor.setPower(0);
             middleMotor.setPower(0);
             Thread.sleep(250);
-            servo2.setPosition(0);
-            Thread.sleep(100);
-            servo2.setPosition(-.2);
-            Thread.sleep(100);
-            servo2.setPosition(0);
-            Thread.sleep(100);
-            servo2.setPosition(-.2);
-            Thread.sleep(100);
-            servo2.setPosition(0);
-            Thread.sleep(100);
-            servo2.setPosition(-.2);
-            Thread.sleep(100);
-            servo2.setPosition(0);
+            servo2.setPosition(1);
         }
-        else if(sensorRGB.blue() < sensorRGB.red()) {
+        else if(sensorRGB.blue() > sensorRGB.red()) {
             telemetry.addData("Color", "Blue");
-            Thread.sleep(400);
-            servo2.setPosition(-.2);
+            Thread.sleep(100);
+            servo2.setPosition(.5);
             leftMotor.setPower(0);
             rightMotor.setPower(0);
-            middleMotor.setPower(.01);
-            Thread.sleep(500);
+            middleMotor.setPower(-.1);
+            Thread.sleep(200);
             leftMotor.setPower(-.1);
             rightMotor.setPower(-.1);
-            middleMotor.setPower(.01);
-            Thread.sleep(1400);
+            middleMotor.setPower(-.1);
+            Thread.sleep(1300);
             leftMotor.setPower(0);
             rightMotor.setPower(0);
             middleMotor.setPower(0);
-            Thread.sleep(250);
-            servo2.setPosition(0);
-
+            Thread.sleep(50);
+            servo2.setPosition(1);
         }
         else {
             telemetry.addData("You are terrible at programming", "-Robot");
         }
-        servo2.setPosition(0);
-        Thread.sleep(30000);
+        servo2.setPosition(1);
 
 
         /*angles = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);//Initialize gyro
@@ -356,7 +345,7 @@ public class AutonomousBlue extends LinearOpMode {
         telemetry.clearAll();
         telemetry.addData("Gyro Angle", angleDouble);
         telemetry.update();*/
-        Thread.sleep(40000);
+
         //encoderDrive(DRIVE_SPEED, -12, -12, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
         //encoderDriveMiddle(DRIVE_SPEED, 12, 5.0);
 
@@ -387,7 +376,7 @@ public class AutonomousBlue extends LinearOpMode {
 
             // reset the timeout time and start motion.
             runtime.reset();
-            robot.middleMotor.setPower(Math.abs(speed));
+            robot.middleMotor.setPower(speed);
 
 
             // keep looping while we are still active, and there is time left, and both motors are running.
@@ -429,8 +418,8 @@ public class AutonomousBlue extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = /*robot.leftMotor.getCurrentPosition() + */(int)((leftInches-18) * COUNTS_PER_INCH);
-            newRightTarget = /*robot.rightMotor.getCurrentPosition() + */(int)((rightInches-18) * COUNTS_PER_INCH);
+            newLeftTarget = /*robot.leftMotor.getCurrentPosition() + */(int)((leftInches) * COUNTS_PER_INCH);
+            newRightTarget = /*robot.rightMotor.getCurrentPosition() + */(int)((rightInches) * COUNTS_PER_INCH);
             robot.leftMotor.setTargetPosition(newLeftTarget);
             robot.rightMotor.setTargetPosition(newRightTarget);
             // Turn On RUN_TO_POSITION
@@ -439,8 +428,8 @@ public class AutonomousBlue extends LinearOpMode {
 
             // reset the timeout time and start motion.
             runtime.reset();
-            robot.leftMotor.setPower(Math.abs(speed));
-            robot.rightMotor.setPower(Math.abs(speed));
+            robot.leftMotor.setPower(speed);
+            robot.rightMotor.setPower(speed);
 
 
             // keep looping while we are still active, and there is time left, and both motors are running.
