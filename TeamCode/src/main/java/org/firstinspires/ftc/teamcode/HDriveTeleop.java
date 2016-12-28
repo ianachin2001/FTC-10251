@@ -74,7 +74,7 @@ public class HDriveTeleop extends OpMode {
             middleMotor = hardwareMap.dcMotor.get("middleMotor");
             shooter = hardwareMap.dcMotor.get("shooter");
             //servo2 = hardwareMap.servo.get("servo2");
-        buttonPusher = hardwareMap.servo.get("PPAP");
+        buttonPusher = hardwareMap.servo.get("servo2");
 
 
 
@@ -161,7 +161,7 @@ public class HDriveTeleop extends OpMode {
             buttonPusher.setPosition(1);
         }
         if(right > 0) {
-            buttonPusher.setPosition(-.5);
+            buttonPusher.setPosition(0);
         }
         if(gamepad1.left_bumper == true) {
             leftMotor.setPower(-.1);

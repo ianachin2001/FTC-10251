@@ -4,6 +4,8 @@ package org.firstinspires.ftc.teamcode;
         import com.qualcomm.robotcore.hardware.DcMotor;
         import com.qualcomm.robotcore.hardware.DcMotorController;
         import com.qualcomm.robotcore.hardware.GyroSensor;
+        import com.qualcomm.robotcore.hardware.AnalogInput;
+        import com.qualcomm.robotcore.hardware.AnalogInputController;
 /**
  * Created by Luke on 9/21/2016.
  */
