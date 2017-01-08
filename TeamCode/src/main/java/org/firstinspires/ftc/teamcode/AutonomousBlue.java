@@ -158,14 +158,14 @@ public class AutonomousBlue extends LinearOpMode {
         Thread.sleep(500);
         angles = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);
         angleDouble = formatAngle(angles.angleUnit, angles.firstAngle);
-        while(Double.parseDouble(angleDouble) != -19.4&& Double.parseDouble(angleDouble) != -19.5 && Double.parseDouble(angleDouble) != -19.6 && Double.parseDouble(angleDouble) != -19.7 && Double.parseDouble(angleDouble) != -19.8 && Double.parseDouble(angleDouble) != -19.9 && Double.parseDouble(angleDouble) != -20 && Double.parseDouble(angleDouble) != -20.1 && Double.parseDouble(angleDouble) != -20.2 && Double.parseDouble(angleDouble) != -20.3 && Double.parseDouble(angleDouble) != -20.4 && Double.parseDouble(angleDouble) != -20.5) {
-            if (Double.parseDouble(angleDouble) > 90) {
-                leftMotor.setPower(.01);
-                rightMotor.setPower(-.01);
+        while(Double.parseDouble(angleDouble) != 9.4&& Double.parseDouble(angleDouble) != 9.5 && Double.parseDouble(angleDouble) != 9.6 && Double.parseDouble(angleDouble) != 9.7 && Double.parseDouble(angleDouble) != 9.8 && Double.parseDouble(angleDouble) != 9.9 && Double.parseDouble(angleDouble) != 10 && Double.parseDouble(angleDouble) != 10.1 && Double.parseDouble(angleDouble) != 10.2 && Double.parseDouble(angleDouble) != 10.3 && Double.parseDouble(angleDouble) != 10.4 && Double.parseDouble(angleDouble) != 10.5) {
+            if (Double.parseDouble(angleDouble) > 10) {
+                leftMotor.setPower(.03);
+                rightMotor.setPower(-.03);
                 //Thread.sleep(100);
-            } else if (Double.parseDouble(angleDouble) < 90) {
-                leftMotor.setPower(-.01);
-                rightMotor.setPower(.01);
+            } else if (Double.parseDouble(angleDouble) < 10) {
+                leftMotor.setPower(-.03);
+                rightMotor.setPower(.03);
                 //Thread.sleep(100);
             } else {
                 leftMotor.setPower(0);
