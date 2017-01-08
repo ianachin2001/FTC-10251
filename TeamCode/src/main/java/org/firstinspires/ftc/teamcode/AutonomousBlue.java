@@ -136,14 +136,15 @@ public class AutonomousBlue extends LinearOpMode {
 
         waitForStart();
 
-        encoderDriveMiddle(0.7,-5,10.0); // Move away from the wall
-        angles = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);//Initialize gyro
-        angleDouble = formatAngle(angles.angleUnit, angles.firstAngle); //Initialize Gyro
-        initialAngle = Double.parseDouble(angleDouble); //Set the Gyro angle to Double (Originally String)
-        Thread.sleep(100);
-        while(initialAngle< 10) { // Subtract 3.5 degrees because the while has a delay or something
-            rightMotor.setPower(.2);
-            leftMotor.setPower(-.2);
+        encoderDrive(.5,-24,-24,20);
+        Thread.sleep(200);
+        encoderDriveMiddle(.7,-12,20);
+        Thread.sleep(200);
+        encoderDriveMiddle(.5,-31,20);
+
+        while(initialAngle > -90) { // Subtract 3.5 degrees because the while has a delay or something
+            rightMotor.setPower(-.2);
+            leftMotor.setPower(.2);
             telemetry.clearAll();
             telemetry.addData("Gyro Angle" , angleDouble);
             telemetry.update();
@@ -158,20 +159,19 @@ public class AutonomousBlue extends LinearOpMode {
         Thread.sleep(500);
         angles = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);
         angleDouble = formatAngle(angles.angleUnit, angles.firstAngle);
-        while(Double.parseDouble(angleDouble) != 9.4&& Double.parseDouble(angleDouble) != 9.5 && Double.parseDouble(angleDouble) != 9.6 && Double.parseDouble(angleDouble) != 9.7 && Double.parseDouble(angleDouble) != 9.8 && Double.parseDouble(angleDouble) != 9.9 && Double.parseDouble(angleDouble) != 10 && Double.parseDouble(angleDouble) != 10.1 && Double.parseDouble(angleDouble) != 10.2 && Double.parseDouble(angleDouble) != 10.3 && Double.parseDouble(angleDouble) != 10.4 && Double.parseDouble(angleDouble) != 10.5) {
-            if (Double.parseDouble(angleDouble) > 10) {
-                leftMotor.setPower(.03);
-                rightMotor.setPower(-.03);
+        while(Double.parseDouble(angleDouble) != -89.4&& Double.parseDouble(angleDouble) != -89.5 && Double.parseDouble(angleDouble) != -89.6 && Double.parseDouble(angleDouble) != -89.7 && Double.parseDouble(angleDouble) != -89.8 && Double.parseDouble(angleDouble) != -89.9 && Double.parseDouble(angleDouble) != -90 && Double.parseDouble(angleDouble) != -90.1 && Double.parseDouble(angleDouble) != -90.2 && Double.parseDouble(angleDouble) != -90.3 && Double.parseDouble(angleDouble) != -90.4 && Double.parseDouble(angleDouble) != -90.5) {
+            if (Double.parseDouble(angleDouble) < -90) {
+                leftMotor.setPower(-.01);
+                rightMotor.setPower(.01);
                 //Thread.sleep(100);
-            } else if (Double.parseDouble(angleDouble) < 10) {
-                leftMotor.setPower(-.03);
-                rightMotor.setPower(.03);
+            } else if (Double.parseDouble(angleDouble) > -90) {
+                leftMotor.setPower(.01);
+                rightMotor.setPower(-.01);
                 //Thread.sleep(100);
             } else {
                 leftMotor.setPower(0);
                 rightMotor.setPower(0);
             }
-
             /*leftMotor.setPower(0);
             rightMotor.setPower(0);*/
             angles = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);
@@ -180,8 +180,9 @@ public class AutonomousBlue extends LinearOpMode {
             telemetry.update();
             Thread.sleep(50);
         }
-        rightMotor.setPower(0);
         leftMotor.setPower(0);
+        rightMotor.setPower(0);
+        Thread.sleep(20000); //delete this
         encoderDrive(0.7, -43,-43, 100.0); //Drive let and right motors backwards 24-17 inches
         Thread.sleep(300);
         encoderDriveMiddle(.4,-45,20.0);
