@@ -53,7 +53,6 @@ public class HDriveTeleop extends OpMode {
     boolean yulienNotAnA = false;
     boolean hulianNotAnH = false;
     Servo buttonPusher;
-
     public HDriveTeleop(){
 
     }
@@ -82,8 +81,8 @@ public class HDriveTeleop extends OpMode {
             //servo = hardwareMap.crservo.get("servo");
             leftMotor.setDirection(DcMotor.Direction.REVERSE);
             middleMotor.setDirection(DcMotor.Direction.REVERSE);
-        //shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
@@ -171,28 +170,30 @@ public class HDriveTeleop extends OpMode {
             leftMotor.setPower(.1);
             rightMotor.setPower(.1);
         }
-        /*if(buttonAPressed2) {
-            shooter.setTargetPosition(1040);
-            shooter.setPower(.5);
+        if(gamepad1.left_bumper) {
+            shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            shooter.setTargetPosition(3120);
+            shooter.setPower(1);
             shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             yulienNotAnA = true;
         }
-        if(shooter.getCurrentPosition() == 1040 && yulienNotAnA) {
+        if(shooter.getCurrentPosition() == 3120 && yulienNotAnA) {
             shooter.setPower(0);
             yulienNotAnA = false;
         }
-        if(buttonXPressed2) {
-            shooter.setTargetPosition(500);
-            shooter.setPower(.5);
+        if(gamepad1.right_bumper) {
+            shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            shooter.setTargetPosition(3120);
+            shooter.setPower(1);
             shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             hulianNotAnH = true;
         }
         //set to maximum overdrive
-        if(shooter.getCurrentPosition() == 500 && hulianNotAnH == true) {
+        if(shooter.getCurrentPosition() == 3120 && hulianNotAnH == true) {
             shooter.setPower(0);
             hulianNotAnH = false;
         }
-        servo2.setPosition(armAngle);*/
+        servo2.setPosition(armAngle);
 
 
     }
