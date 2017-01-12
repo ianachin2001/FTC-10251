@@ -136,11 +136,11 @@ public class AutonomousBlue extends LinearOpMode {
 
         waitForStart();
 
-        encoderDrive(.5,-24,-24,20);
-        Thread.sleep(200);
-        encoderDriveMiddle(.7,-12,20);
-        Thread.sleep(200);
-        encoderDriveMiddle(.5,-31,20);
+        encoderDrive(.7,-21,-21,20);
+        Thread.sleep(50);
+        encoderDriveMiddle(.5,-12,20);
+        Thread.sleep(50);
+        encoderDriveMiddle(.5,-33,20);
 
         while(initialAngle > -90) { // Subtract 3.5 degrees because the while has a delay or something
             rightMotor.setPower(-.2);
@@ -156,17 +156,16 @@ public class AutonomousBlue extends LinearOpMode {
         rightMotor.setPower(0);
         telemetry.addData("Gyro Angle", angleDouble);
         telemetry.update();
-        Thread.sleep(500);
         angles = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);
         angleDouble = formatAngle(angles.angleUnit, angles.firstAngle);
         while(Double.parseDouble(angleDouble) != -89.4&& Double.parseDouble(angleDouble) != -89.5 && Double.parseDouble(angleDouble) != -89.6 && Double.parseDouble(angleDouble) != -89.7 && Double.parseDouble(angleDouble) != -89.8 && Double.parseDouble(angleDouble) != -89.9 && Double.parseDouble(angleDouble) != -90 && Double.parseDouble(angleDouble) != -90.1 && Double.parseDouble(angleDouble) != -90.2 && Double.parseDouble(angleDouble) != -90.3 && Double.parseDouble(angleDouble) != -90.4 && Double.parseDouble(angleDouble) != -90.5) {
             if (Double.parseDouble(angleDouble) < -90) {
-                leftMotor.setPower(-.01);
-                rightMotor.setPower(.01);
+                leftMotor.setPower(-.05);
+                rightMotor.setPower(.05);
                 //Thread.sleep(100);
             } else if (Double.parseDouble(angleDouble) > -90) {
-                leftMotor.setPower(.01);
-                rightMotor.setPower(-.01);
+                leftMotor.setPower(.05);
+                rightMotor.setPower(-.05);
                 //Thread.sleep(100);
             } else {
                 leftMotor.setPower(0);
@@ -178,14 +177,11 @@ public class AutonomousBlue extends LinearOpMode {
             angleDouble = formatAngle(angles.angleUnit, angles.firstAngle);
             telemetry.addData("Gyro Angle", angleDouble);
             telemetry.update();
-            Thread.sleep(50);
         }
         leftMotor.setPower(0);
         rightMotor.setPower(0);
-        Thread.sleep(20000); //delete this
-        encoderDrive(0.7, -43,-43, 100.0); //Drive let and right motors backwards 24-17 inches
         Thread.sleep(300);
-        encoderDriveMiddle(.4,-45,20.0);
+        encoderDriveMiddle(.6,-87,20.0);
 
         leftMotor.setPower(0); //Stop the left Motor
         rightMotor.setPower(0); //Stop the Right Motor
