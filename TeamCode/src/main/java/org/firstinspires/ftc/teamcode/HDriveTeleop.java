@@ -50,7 +50,8 @@ public class HDriveTeleop extends OpMode {
     double armAngle = .5;
     double offset = 0;
     int encoder = 0;
-    boolean yulienNotAnA = false;
+    boolean bumperPressed;
+    boolean bumperIsPressed = false;
     boolean hulianNotAnH = false;
     Servo buttonPusher;
 
@@ -163,43 +164,60 @@ public class HDriveTeleop extends OpMode {
         if(right > 0) {
             buttonPusher.setPosition(0);
         }
-        if(gamepad1.left_bumper == true) {
+     /*   if(gamepad1.left_bumper == true) {
             leftMotor.setPower(-.1);
             rightMotor.setPower(-.1);
         }
         if(gamepad1.right_bumper == true) {
             leftMotor.setPower(.1);
             rightMotor.setPower(.1);
-        }
-        /*if(buttonAPressed2) {
-            shooter.setTargetPosition(1040);
-            shooter.setPower(.5);
+        }*/
+        if(gamepad1.right_bumper) {
+            shooter.setTargetPosition(3120);
+            shooter.setPower(1);
             shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            yulienNotAnA = true;
+            bumperIsPressed = true;
         }
-        if(shooter.getCurrentPosition() == 1040 && yulienNotAnA) {
+        if(shooter.getCurrentPosition() == 3120 && bumperIsPressed) {
             shooter.setPower(0);
-            yulienNotAnA = false;
+            bumperIsPressed = false;
+            shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
-        if(buttonXPressed2) {
-            shooter.setTargetPosition(500);
-            shooter.setPower(.5);
+        if(gamepad1.left_bumper) {
+            shooter.setTargetPosition(3120);
+            shooter.setPower(1);
             shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             hulianNotAnH = true;
         }
         //set to maximum overdrive
-        if(shooter.getCurrentPosition() == 500 && hulianNotAnH == true) {
+        if(shooter.getCurrentPosition() == 3120 && hulianNotAnH == true) {
             shooter.setPower(0);
             hulianNotAnH = false;
+            shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
-        servo2.setPosition(armAngle);*/
+        servo2.setPosition(armAngle);
+        if(gamepad1.left_bumper==true){
+            bumperPressed = true;
+        }
+        else {}
+        if(bumperPressed == true) {
+            shooter.setPower(1);
+            shooter.setTargetPosition(3120);
+            shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            bumperPressed = false;
+        }
 
 
-    }
+        }
+
     String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
     String formatDegrees(double degrees) {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+
+
     }
 }
