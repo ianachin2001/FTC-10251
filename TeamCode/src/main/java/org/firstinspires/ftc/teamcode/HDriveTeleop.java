@@ -120,6 +120,7 @@ public class HDriveTeleop extends OpMode {
                 leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 middleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 telemetry.addData("Mode", "Speed");
                 telemetry.update();
             } else if (speedMode == true) {
@@ -172,7 +173,7 @@ public class HDriveTeleop extends OpMode {
             leftMotor.setPower(.1);
             rightMotor.setPower(.1);
         }*/
-        if(gamepad1.right_bumper) {
+        /*if(gamepad1.right_bumper) {
             shooter.setTargetPosition(3120);
             shooter.setPower(1);
             shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -196,18 +197,8 @@ public class HDriveTeleop extends OpMode {
             hulianNotAnH = false;
             shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
+        }*/
         servo2.setPosition(armAngle);
-        if(gamepad1.left_bumper==true){
-            bumperPressed = true;
-        }
-        else {}
-        if(bumperPressed == true) {
-            shooter.setPower(1);
-            shooter.setTargetPosition(3120);
-            shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            bumperPressed = false;
-        }
 
 
         }
