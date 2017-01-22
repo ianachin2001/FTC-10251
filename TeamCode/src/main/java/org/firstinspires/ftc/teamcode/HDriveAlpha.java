@@ -134,15 +134,15 @@ public class HDriveAlpha extends OpMode {
                 leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 middleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                telemetry.addData("Mode", "Speed");
-                telemetry.update();
+                //try.addData("Mode", "Speed");
+               // telemetry.update();
             } else if (speedMode == true) {
                 speedMode = false;
                 leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 middleMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                telemetry.addData("Mode", "Power");
-                telemetry.update();
+                //telemetry.addData("Mode", "Power");
+                //telemetry.update();
             }
         }
         // telemetry.addData("Encoder Position", shooter.getCurrentPosition());
@@ -232,13 +232,13 @@ public class HDriveAlpha extends OpMode {
         servo2.setPosition(armAngle);
         */
         //**********************************************************************
-        telemetry.addData("Time", System.currentTimeMillis()-start);
-        telemetry.addData("Distance Sesnor", distanceSensor.getVoltage());
-        telemetry.addData("Color Sensor", sensorRGB.red());
-        telemetry.addData("Shooter", shooter.getMode());
-        telemetry.addData("Shooter", shooter.getCurrentPosition());
-        telemetry.addData("Bumper", gamepad1.left_bumper);
-        telemetry.update();
+        //telemetry.addData("Time", System.currentTimeMillis()-start);
+        //telemetry.addData("Distance Sesnor", distanceSensor.getVoltage());
+        //telemetry.addData("Color Sensor", sensorRGB.red());
+        //telemetry.addData("Shooter", shooter.getMode());
+        //telemetry.addData("Shooter", shooter.getCurrentPosition());
+        //telemetry.addData("Bumper", gamepad1.left_bumper);
+        //telemetry.update();
         if (gamepad1.right_bumper) {
             middleMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             if(starting[1]) {
@@ -284,7 +284,7 @@ public class HDriveAlpha extends OpMode {
             }
             if(running1) {//delay after finding beacon, only does this once
                 running1 = false;
-                servo2.setPosition(0);
+                buttonPusher.setPosition(0);
                 time3 = System.currentTimeMillis();
                 starting[0] = true; //tells it to start checking the time for 100 ms delay
                 state2 = false;
@@ -296,11 +296,15 @@ public class HDriveAlpha extends OpMode {
                     beaconBlue = true;
                     state3 = false;
                     starting[2] = true;
+                    telemetry.addData("Beacon State", sensorRGB.blue());
+                    telemetry.update();
                 }
                 if(sensorRGB.blue() < sensorRGB.red()) {
                     beaconRed = true;
                     state3 = false;
                     starting[2] = true;
+                    telemetry.addData("Beacon State", sensorRGB.red());
+                    telemetry.update();
                 }
             }
             if(starting[2]) {
@@ -323,18 +327,22 @@ public class HDriveAlpha extends OpMode {
                 state5 = true;
             }
             if(leftMotor.getCurrentPosition() >= 83 && state5) {
+                telemetry.addLine("Got There");
                 leftMotor.setPower(0);
                 rightMotor.setPower(0);
                 state5 = false;
                 state6 = true;
                 beaconBlue = false;
+                buttonPusher.setPosition(1);
             }
             if(state6) {
+                telemetry.addLine("Got there again good job");
                 buttonPusher.setPosition(1);
                 state5 = false;
                 starting[3] = true;
             }
             if(starting[3]) {
+                buttonPusher.setPosition(1);
                 starting[3] = false;
                 time5 = System.currentTimeMillis();
                 state6 = false;
@@ -353,10 +361,9 @@ public class HDriveAlpha extends OpMode {
 
 
 
-
             if(beaconRed) {
-                leftMotor.setTargetPosition(380);
-                rightMotor.setTargetPosition(380);
+                leftMotor.setTargetPosition(440);
+                rightMotor.setTargetPosition(440);
                 leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 leftMotor.setPower(.4);
@@ -366,7 +373,7 @@ public class HDriveAlpha extends OpMode {
                 rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 state8 = true;
             }
-            if(leftMotor.getCurrentPosition() >= 379 && state8) {
+            if(leftMotor.getCurrentPosition() >= 439 && state8) {
                 leftMotor.setPower(0);
                 rightMotor.setPower(0);
                 state8 = false;
@@ -394,7 +401,7 @@ public class HDriveAlpha extends OpMode {
                 buttonPusher.setPosition(0);
             }
 
-            //***********************************************************************
+            //***********************************************************************/
         }
         else {
             middleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

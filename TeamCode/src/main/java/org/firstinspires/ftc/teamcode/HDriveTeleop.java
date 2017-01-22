@@ -56,6 +56,7 @@ public class HDriveTeleop extends OpMode {
     boolean hulianNotAnH = false;
     boolean shootTimerDone = false;
     Servo buttonPusher;
+    boolean lezGoSlow = false;
     boolean state1;
     public HDriveTeleop(){
 
@@ -105,6 +106,10 @@ public class HDriveTeleop extends OpMode {
         boolean buttonXPressed = gamepad1.x;
         boolean buttonAPressed2 = gamepad2.a;
         boolean buttonXPressed2 = gamepad2.x;
+        boolean dPadUp    = gamepad1.dpad_up;
+        boolean dPadDown  = gamepad1.dpad_down;
+        boolean dPadLeft  = gamepad1.dpad_left;
+        boolean dPadRight = gamepad1.dpad_right;
         //bumperPressed = gamepad1.right_bumper;
         if(countUp){
             if(countsinceapressed < 10){
@@ -141,24 +146,39 @@ public class HDriveTeleop extends OpMode {
         //telemetry.addData("Left Stick X" , gamepad1.left_stick_y);
         //telemetry.addData("Right Stick Y" , gamepad1.right_stick_y);
         //telemetry.update();
-
+        if(gamepad1.y) {
+            lezGoSlow = true;
+        }
+        else {
+            lezGoSlow = false;
+        }
 
         if(buttonXPressed == true){
             offset = Double.parseDouble(angleDouble);
             offset = -offset;
         }
-
-
-        calculator.calculateMovement(leftX, leftY, rightX, Double.parseDouble(angleDouble)+offset);
-        if(!speedMode) {
-            leftMotor.setPower(.7 * calculator.getLeftDrive());
-            rightMotor.setPower(.7 * calculator.getRightDrive());
-            middleMotor.setPower(-calculator.getMiddleDrive());
+        calculator.calculateMovement(leftX, leftY, rightX, Double.parseDouble(angleDouble) + offset);
+        if(lezGoSlow) {
+            if (!speedMode) {
+                leftMotor.setPower(.1 * calculator.getLeftDrive());
+                rightMotor.setPower(.1 * calculator.getRightDrive());
+                middleMotor.setPower(.2*-calculator.getMiddleDrive());
+            } else {
+                leftMotor.setPower(.1*calculator.getLeftDrive());
+                rightMotor.setPower(.1*calculator.getRightDrive());
+                middleMotor.setPower(.2*-calculator.getMiddleDrive());
+            }
         }
-        else{
-            leftMotor.setPower(calculator.getLeftDrive());
-            rightMotor.setPower(calculator.getRightDrive());
-            middleMotor.setPower(-calculator.getMiddleDrive());
+        else {
+            if (!speedMode) {
+                leftMotor.setPower(.7 * calculator.getLeftDrive());
+                rightMotor.setPower(.7 * calculator.getRightDrive());
+                middleMotor.setPower(-calculator.getMiddleDrive());
+            } else {
+                leftMotor.setPower(calculator.getLeftDrive());
+                rightMotor.setPower(calculator.getRightDrive());
+                middleMotor.setPower(-calculator.getMiddleDrive());
+            }
         }
         if(left > 0) {
             buttonPusher.setPosition(1);
