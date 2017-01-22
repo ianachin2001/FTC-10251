@@ -30,8 +30,6 @@ public class NOTFEILDCENTRIC extends OpMode {
 
         calculator = new HDrive2();
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        middleMotor.setDirection(DcMotor.Direction.REVERSE);
-
     }
 
     public void loop(){

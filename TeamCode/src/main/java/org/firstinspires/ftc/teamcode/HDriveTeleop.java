@@ -50,9 +50,13 @@ public class HDriveTeleop extends OpMode {
     double armAngle = .5;
     double offset = 0;
     int encoder = 0;
-    boolean yulienNotAnA = false;
+    int shootTimer = 6;
+    boolean bumperPressed = false;
+    boolean bumperIsPressed = false;
     boolean hulianNotAnH = false;
+    boolean shootTimerDone = false;
     Servo buttonPusher;
+    boolean state1;
     public HDriveTeleop(){
 
     }
@@ -81,9 +85,8 @@ public class HDriveTeleop extends OpMode {
             //servo = hardwareMap.crservo.get("servo");
             leftMotor.setDirection(DcMotor.Direction.REVERSE);
             middleMotor.setDirection(DcMotor.Direction.REVERSE);
-        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
     }
 
     public void loop(){
@@ -102,6 +105,8 @@ public class HDriveTeleop extends OpMode {
         boolean buttonXPressed = gamepad1.x;
         boolean buttonAPressed2 = gamepad2.a;
         boolean buttonXPressed2 = gamepad2.x;
+
+        //bumperPressed = gamepad1.right_bumper;
         if(countUp){
             if(countsinceapressed < 10){
                 countsinceapressed++;
@@ -118,25 +123,25 @@ public class HDriveTeleop extends OpMode {
                 leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 middleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                telemetry.addData("Mode", "Speed");
-                telemetry.update();
+                //telemetry.addData("Mode", "Speed");
+                //telemetry.update();
             } else if (speedMode == true) {
                 speedMode = false;
                 leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 middleMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                telemetry.addData("Mode", "Power");
-                telemetry.update();
+                //telemetry.addData("Mode", "Power");
+                //telemetry.update();
             }
         }
        // telemetry.addData("Encoder Position", shooter.getCurrentPosition());
-        telemetry.addData("Angle", Double.parseDouble(angleDouble)+offset);
-        telemetry.addData("Left Trigger", gamepad1.left_trigger);
-        telemetry.addData("Left Stick X" , gamepad1.left_stick_x);
-        telemetry.addData("Right Stick Y" , gamepad1.right_stick_x);
-        telemetry.addData("Left Stick X" , gamepad1.left_stick_y);
-        telemetry.addData("Right Stick Y" , gamepad1.right_stick_y);
-        telemetry.update();
+       // telemetry.addData("Angle", Double.parseDouble(angleDouble)+offset);
+       // telemetry.addData("Left Trigger", gamepad1.left_trigger);
+       // telemetry.addData("Left Stick X" , gamepad1.left_stick_x);
+        //telemetry.addData("Right Stick Y" , gamepad1.right_stick_x);
+        //telemetry.addData("Left Stick X" , gamepad1.left_stick_y);
+        //telemetry.addData("Right Stick Y" , gamepad1.right_stick_y);
+        //telemetry.update();
 
 
         if(buttonXPressed == true){
@@ -162,26 +167,43 @@ public class HDriveTeleop extends OpMode {
         if(right > 0) {
             buttonPusher.setPosition(0);
         }
-        if(gamepad1.left_bumper == true) {
+     /*   if(gamepad1.left_bumper == true) {
             leftMotor.setPower(-.1);
             rightMotor.setPower(-.1);
         }
         if(gamepad1.right_bumper == true) {
             leftMotor.setPower(.1);
             rightMotor.setPower(.1);
+<<<<<<< HEAD
+        }*/
+        if(!shootTimerDone){
+            shootTimer++;
+            if(shootTimer > 5){
+                shootTimerDone = true;
+            }
         }
-        if(gamepad1.left_bumper) {
+        if(gamepad1.left_bumper && shootTimerDone && !bumperIsPressed) {
             shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            shooter.setTargetPosition(3120);
+            shooter.setTargetPosition(3360);
             shooter.setPower(1);
             shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            yulienNotAnA = true;
+            bumperIsPressed = true;
+            telemetry.addLine(Double.toString(shooter.getCurrentPosition()));
+            telemetry.update();
+            shootTimer = 0;
         }
-        if(shooter.getCurrentPosition() == 3120 && yulienNotAnA) {
+        if(shooter.getCurrentPosition() >= 3359 && shooter.getCurrentPosition() <= 3365 && bumperIsPressed) {
+            shootTimerDone = false;
             shooter.setPower(0);
-            yulienNotAnA = false;
+            bumperIsPressed = false;
+            shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            telemetry.addLine(Double.toString(shooter.getCurrentPosition()));
+            telemetry.update();
         }
-        if(gamepad1.right_bumper) {
+        telemetry.addLine(Double.toString(shooter.getCurrentPosition()));
+        telemetry.update();
+        /*if(gamepad1.right_bumper) {
             shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             shooter.setTargetPosition(3120);
             shooter.setPower(1);
@@ -192,15 +214,27 @@ public class HDriveTeleop extends OpMode {
         if(shooter.getCurrentPosition() == 3120 && hulianNotAnH == true) {
             shooter.setPower(0);
             hulianNotAnH = false;
+            shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
         servo2.setPosition(armAngle);
-
-
+        */
+        //**********************************************************************
+        if(gamepad1.right_bumper) {
+            bumperPressed = true;
+        }
+        else {
+            bumperPressed = false;
+        }
+        //***********************************************************************
     }
+
     String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
     String formatDegrees(double degrees) {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+
+
     }
 }
