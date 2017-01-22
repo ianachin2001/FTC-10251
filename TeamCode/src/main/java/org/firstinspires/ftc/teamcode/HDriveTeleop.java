@@ -105,10 +105,6 @@ public class HDriveTeleop extends OpMode {
         boolean buttonXPressed = gamepad1.x;
         boolean buttonAPressed2 = gamepad2.a;
         boolean buttonXPressed2 = gamepad2.x;
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
         //bumperPressed = gamepad1.right_bumper;
         if(countUp){
             if(countsinceapressed < 10){
@@ -126,28 +122,21 @@ public class HDriveTeleop extends OpMode {
                 leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 middleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                //telemetry.addData("Mode", "Speed");
-                //telemetry.update();
+                telemetry.addData("Mode", "Speed");
+                telemetry.update();
             } else if (speedMode == true) {
                 speedMode = false;
                 leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 middleMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                //telemetry.addData("Mode", "Power");
-                //telemetry.update();
+                telemetry.addData("Mode", "Power");
+                telemetry.update();
             }
         }
-<<<<<<< HEAD
-       // telemetry.addData("Encoder Position", shooter.getCurrentPosition());
-       // telemetry.addData("Angle", Double.parseDouble(angleDouble)+offset);
-       // telemetry.addData("Left Trigger", gamepad1.left_trigger);
-       // telemetry.addData("Left Stick X" , gamepad1.left_stick_x);
-=======
         // telemetry.addData("Encoder Position", shooter.getCurrentPosition());
         // telemetry.addData("Angle", Double.parseDouble(angleDouble)+offset);
         // telemetry.addData("Left Trigger", gamepad1.left_trigger);
         // telemetry.addData("Left Stick X" , gamepad1.left_stick_x);
->>>>>>> origin/master
         //telemetry.addData("Right Stick Y" , gamepad1.right_stick_x);
         //telemetry.addData("Left Stick X" , gamepad1.left_stick_y);
         //telemetry.addData("Right Stick Y" , gamepad1.right_stick_y);
@@ -192,20 +181,6 @@ public class HDriveTeleop extends OpMode {
                 shootTimerDone = true;
             }
         }
-<<<<<<< HEAD
-        if(gamepad1.right_bumper == true) {
-            leftMotor.setPower(.1);
-            rightMotor.setPower(.1);
-<<<<<<< HEAD
-        }*/
-        if(!shootTimerDone){
-            shootTimer++;
-            if(shootTimer > 5){
-                shootTimerDone = true;
-            }
-        }
-=======
->>>>>>> origin/master
         if(gamepad1.left_bumper && shootTimerDone && !bumperIsPressed) {
             shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             shooter.setTargetPosition(3360);
@@ -227,24 +202,6 @@ public class HDriveTeleop extends OpMode {
         }
         telemetry.addLine(Double.toString(shooter.getCurrentPosition()));
         telemetry.update();
-<<<<<<< HEAD
-        /*if(gamepad1.right_bumper) {
-            shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            shooter.setTargetPosition(3120);
-            shooter.setPower(1);
-            shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            hulianNotAnH = true;
-        }
-        //set to maximum overdrive
-        if(shooter.getCurrentPosition() == 3120 && hulianNotAnH == true) {
-            shooter.setPower(0);
-            hulianNotAnH = false;
-            shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
-        servo2.setPosition(armAngle);
-        */
-=======
        /*if(gamepad1.right_bumper) {
            shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
            shooter.setTargetPosition(3120);
@@ -261,7 +218,6 @@ public class HDriveTeleop extends OpMode {
        }
        servo2.setPosition(armAngle);
        */
->>>>>>> origin/master
         //**********************************************************************
         if(gamepad1.right_bumper) {
             bumperPressed = true;
