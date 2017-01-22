@@ -8,22 +8,22 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.DcMotor;
-        import com.qualcomm.robotcore.hardware.DcMotorController;
-        import com.qualcomm.robotcore.hardware.DcMotorSimple;
-        import com.qualcomm.robotcore.hardware.GyroSensor;
-        import com.qualcomm.robotcore.hardware.CRServo;
-        import com.qualcomm.robotcore.*;
-        import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-        import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-        import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-        import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-        import org.firstinspires.ftc.robotcore.external.navigation.Position;
-        import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.*;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
-        import java.util.Locale;
+import java.util.Locale;
 
 
 // * Created by definitly not HIRSH as he would mess it up and it would explode on 8/18/2016.
@@ -31,7 +31,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 @TeleOp(name= "HDriveTeleop Field Centric")
 public class HDriveTeleop extends OpMode {
     double[] rollAngle = new double[2], pitchAngle = new double[2], yawAngle = new double[2];
-     Orientation angles;
+    Orientation angles;
     BNO055IMU imu;
     String angleDouble = "hi";
     public double gyroAngle;
@@ -62,29 +62,29 @@ public class HDriveTeleop extends OpMode {
     }
     public void init(){
 
-            BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-            parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-            parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-            parameters.calibrationDataFile = "AdafruitIMUCalibration.json"; // see the calibration sample opmode
-            parameters.loggingEnabled      = true;
-            parameters.loggingTag          = "IMU";
-            parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-            imu = hardwareMap.get(BNO055IMU.class, "imu");
-            imu.initialize(parameters);
-            imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-            leftMotor = hardwareMap.dcMotor.get("leftMotor");
-            rightMotor = hardwareMap.dcMotor.get("rightMotor");
-            middleMotor = hardwareMap.dcMotor.get("middleMotor");
-            shooter = hardwareMap.dcMotor.get("shooter");
-            //servo2 = hardwareMap.servo.get("servo2");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "AdafruitIMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        leftMotor = hardwareMap.dcMotor.get("leftMotor");
+        rightMotor = hardwareMap.dcMotor.get("rightMotor");
+        middleMotor = hardwareMap.dcMotor.get("middleMotor");
+        shooter = hardwareMap.dcMotor.get("shooter");
+        //servo2 = hardwareMap.servo.get("servo2");
         buttonPusher = hardwareMap.servo.get("servo2");
 
 
 
         calculator = new HDriveFCCalc();
-            //servo = hardwareMap.crservo.get("servo");
-            leftMotor.setDirection(DcMotor.Direction.REVERSE);
-            middleMotor.setDirection(DcMotor.Direction.REVERSE);
+        //servo = hardwareMap.crservo.get("servo");
+        leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        middleMotor.setDirection(DcMotor.Direction.REVERSE);
         //shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
@@ -105,7 +105,10 @@ public class HDriveTeleop extends OpMode {
         boolean buttonXPressed = gamepad1.x;
         boolean buttonAPressed2 = gamepad2.a;
         boolean buttonXPressed2 = gamepad2.x;
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
         //bumperPressed = gamepad1.right_bumper;
         if(countUp){
             if(countsinceapressed < 10){
@@ -134,10 +137,17 @@ public class HDriveTeleop extends OpMode {
                 //telemetry.update();
             }
         }
+<<<<<<< HEAD
        // telemetry.addData("Encoder Position", shooter.getCurrentPosition());
        // telemetry.addData("Angle", Double.parseDouble(angleDouble)+offset);
        // telemetry.addData("Left Trigger", gamepad1.left_trigger);
        // telemetry.addData("Left Stick X" , gamepad1.left_stick_x);
+=======
+        // telemetry.addData("Encoder Position", shooter.getCurrentPosition());
+        // telemetry.addData("Angle", Double.parseDouble(angleDouble)+offset);
+        // telemetry.addData("Left Trigger", gamepad1.left_trigger);
+        // telemetry.addData("Left Stick X" , gamepad1.left_stick_x);
+>>>>>>> origin/master
         //telemetry.addData("Right Stick Y" , gamepad1.right_stick_x);
         //telemetry.addData("Left Stick X" , gamepad1.left_stick_y);
         //telemetry.addData("Right Stick Y" , gamepad1.right_stick_y);
@@ -167,10 +177,22 @@ public class HDriveTeleop extends OpMode {
         if(right > 0) {
             buttonPusher.setPosition(0);
         }
-     /*   if(gamepad1.left_bumper == true) {
-            leftMotor.setPower(-.1);
-            rightMotor.setPower(-.1);
+    /*   if(gamepad1.left_bumper == true) {
+           leftMotor.setPower(-.1);
+           rightMotor.setPower(-.1);
+       }
+       if(gamepad1.right_bumper == true) {
+           leftMotor.setPower(.1);
+           rightMotor.setPower(.1);
+<<<<<<< HEAD
+       }*/
+        if(!shootTimerDone){
+            shootTimer++;
+            if(shootTimer > 5){
+                shootTimerDone = true;
+            }
         }
+<<<<<<< HEAD
         if(gamepad1.right_bumper == true) {
             leftMotor.setPower(.1);
             rightMotor.setPower(.1);
@@ -182,6 +204,8 @@ public class HDriveTeleop extends OpMode {
                 shootTimerDone = true;
             }
         }
+=======
+>>>>>>> origin/master
         if(gamepad1.left_bumper && shootTimerDone && !bumperIsPressed) {
             shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             shooter.setTargetPosition(3360);
@@ -203,6 +227,7 @@ public class HDriveTeleop extends OpMode {
         }
         telemetry.addLine(Double.toString(shooter.getCurrentPosition()));
         telemetry.update();
+<<<<<<< HEAD
         /*if(gamepad1.right_bumper) {
             shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             shooter.setTargetPosition(3120);
@@ -219,6 +244,24 @@ public class HDriveTeleop extends OpMode {
         }
         servo2.setPosition(armAngle);
         */
+=======
+       /*if(gamepad1.right_bumper) {
+           shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+           shooter.setTargetPosition(3120);
+           shooter.setPower(1);
+           shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+           hulianNotAnH = true;
+       }
+       //set to maximum overdrive
+       if(shooter.getCurrentPosition() == 3120 && hulianNotAnH == true) {
+           shooter.setPower(0);
+           hulianNotAnH = false;
+           shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+           shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       }
+       servo2.setPosition(armAngle);
+       */
+>>>>>>> origin/master
         //**********************************************************************
         if(gamepad1.right_bumper) {
             bumperPressed = true;
@@ -238,3 +281,4 @@ public class HDriveTeleop extends OpMode {
 
     }
 }
+
