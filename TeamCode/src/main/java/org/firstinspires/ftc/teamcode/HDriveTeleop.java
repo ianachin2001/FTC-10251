@@ -58,6 +58,8 @@ public class HDriveTeleop extends OpMode {
     Servo buttonPusher;
     boolean lezGoSlow = false;
     boolean state1;
+    Servo IntakeServo;
+    DcMotor IntakeMotor;
     public HDriveTeleop(){
 
     }
@@ -238,7 +240,21 @@ public class HDriveTeleop extends OpMode {
       }
       servo2.setPosition(armAngle);
       */
-        //**********************************************************************
+        //****************************************************************
+        IntakeServo= hardwareMap.servo.get("IntakeServo");
+        if (gamepad2.right_bumper == true){
+            IntakeServo.setPosition(1);
+        }
+        else {IntakeServo.setPosition(0);
+        }
+        IntakeMotor= hardwareMap.dcMotor.get("IntakeMotor");
+        if (gamepad2.left_bumper == true){
+            IntakeMotor.setPower(1);
+        }
+        else {IntakeMotor.setPower(0);
+        }
+
+
         if(gamepad1.right_bumper) {
             bumperPressed = true;
         }
