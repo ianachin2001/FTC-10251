@@ -69,6 +69,7 @@ public class HDriveTeleop extends OpMode {
     boolean lezGoSlow = false;
     int ticks = 0;
     double start;
+    boolean rightBumperHit = false;
     boolean startingButton = false;
     boolean state1 = false; boolean state2 = false; boolean state3 = false; boolean state4 = false; boolean state5 = false; boolean state6 = false; boolean state7 = false; boolean state8 = false; boolean state9 = false; boolean state10 = false;
     double time1; double time2 = 3001; double time3; double time4; double time5; double time6; double time7; double time8;
@@ -120,9 +121,9 @@ public class HDriveTeleop extends OpMode {
         //servo = hardwareMap.crservo.get("servo");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         shooter.setDirection(DcMotor.Direction.REVERSE);
-        middleMotor.setDirection(DcMotor.Direction.REVERSE);
         //shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public void loop(){
@@ -231,11 +232,14 @@ public class HDriveTeleop extends OpMode {
                     shootTimerDone = true;
                 }
             }
-            if (gamepad2.right_bumper && shootTimerDone && !bumperIsPressed) {
+            if(gamepad2.right_bumper) {
+                rightBumperHit = true;
+            }
+            if (rightBumperHit && shootTimerDone && !bumperIsPressed) {
                 counter++;
                 indexer.setPosition(0);
-                if(counter > 132) {
-                    indexer.setPosition(.25);
+                if(counter > 160) {
+                    indexer.setPosition(.28);
                     shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     shooter.setTargetPosition(3360 * numberOfShots);
                     shooter.setPower(1);
@@ -258,6 +262,7 @@ public class HDriveTeleop extends OpMode {
                 time7 = System.currentTimeMillis();
                 doItOnce = false;
                 counter = 0;
+                rightBumperHit = false;
                 //telemetry.addLine(Double.toString(shooter.getCurrentPosition()));
                 //telemetry.update();
             }
