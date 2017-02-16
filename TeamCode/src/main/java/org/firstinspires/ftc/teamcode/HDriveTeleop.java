@@ -80,6 +80,7 @@ public class HDriveTeleop extends OpMode {
     boolean finishedShooting = false;
     boolean doItOnce = false;
     int counter = 0;
+    int counter2 = 0;
     AnalogInput distanceSensor;
     DigitalChannel channel;
 
@@ -116,7 +117,7 @@ public class HDriveTeleop extends OpMode {
         //channel = hardwareMap.digitalChannel.get("HirshSucksAtSpanish");
         //channel.setMode(DigitalChannelController.Mode.OUTPUT);
 
-
+        //middleMotor.setDirection(DcMotor.Direction.REVERSE);
         calculator = new HDriveFCCalc();
         //servo = hardwareMap.crservo.get("servo");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -124,6 +125,7 @@ public class HDriveTeleop extends OpMode {
         //shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        indexer.setPosition(0);
     }
 
     public void loop(){
@@ -237,19 +239,24 @@ public class HDriveTeleop extends OpMode {
             }
             if (rightBumperHit && shootTimerDone && !bumperIsPressed) {
                 counter++;
-                indexer.setPosition(0);
-                if(counter > 160) {
+                if(counter<190) {
                     indexer.setPosition(.28);
+                }
+                if(counter > 190) {
+                    indexer.setPosition(0);
+                    counter2++;
+                    //telemetry.addLine(Double.toString(shooter.getCurrentPosition()));
+                    //telemetry.update();
+
+                    shootTimer = 0;
+                }
+                if(counter2 > 270) {
                     shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     shooter.setTargetPosition(3360 * numberOfShots);
                     shooter.setPower(1);
                     shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     bumperIsPressed = true;
                     doItOnce = true;
-                    //telemetry.addLine(Double.toString(shooter.getCurrentPosition()));
-                    //telemetry.update();
-
-                    shootTimer = 0;
                 }
             }
             if (doItOnce == true && shooter.getCurrentPosition() >= ((3360 * numberOfShots) - 4) && shooter.getCurrentPosition() <= ((3360 * numberOfShots) + 4) && bumperIsPressed) {
@@ -263,6 +270,7 @@ public class HDriveTeleop extends OpMode {
                 doItOnce = false;
                 counter = 0;
                 rightBumperHit = false;
+                counter2 = 0;
                 //telemetry.addLine(Double.toString(shooter.getCurrentPosition()));
                 //telemetry.update();
             }
