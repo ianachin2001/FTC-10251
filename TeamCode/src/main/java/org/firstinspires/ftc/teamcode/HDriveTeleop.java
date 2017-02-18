@@ -59,7 +59,7 @@ public class HDriveTeleop extends OpMode {
     double armAngle = .5;
     double offset = 0;
     int encoder = 0;
-    //ColorSensor sensorRGB;
+    ColorSensor sensorRGB;
     int shootTimer = 6;
     boolean bumperPressed = false;
     boolean bumperIsPressed = false;
@@ -109,9 +109,9 @@ public class HDriveTeleop extends OpMode {
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
         middleMotor = hardwareMap.dcMotor.get("middleMotor");
         shooter = hardwareMap.dcMotor.get("shooter");
-        //distanceSensor = hardwareMap.analogInput.get("ODS");
+        distanceSensor = hardwareMap.analogInput.get("ODS");
         //servo2 = hardwareMap.servo.get("servo2");
-        //buttonPusher = hardwareMap.servo.get("servo2");
+        buttonPusher = hardwareMap.servo.get("servo2");
         indexer = hardwareMap.servo.get("indexer");
         IntakeMotor = hardwareMap.dcMotor.get("IntakeMotor");
         //channel = hardwareMap.digitalChannel.get("HirshSucksAtSpanish");
@@ -121,11 +121,10 @@ public class HDriveTeleop extends OpMode {
         calculator = new HDriveFCCalc();
         //servo = hardwareMap.crservo.get("servo");
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        shooter.setDirection(DcMotor.Direction.REVERSE);
         //shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        indexer.setPosition(0);
+        indexer.setPosition(.5);
     }
 
     public void loop(){
@@ -145,7 +144,7 @@ public class HDriveTeleop extends OpMode {
             boolean buttonXPressed = gamepad1.x;
             boolean buttonAPressed2 = gamepad2.a;
             boolean buttonXPressed2 = gamepad2.x;
-            //sensorRGB = hardwareMap.colorSensor.get("color");
+            sensorRGB = hardwareMap.colorSensor.get("color");
             //bumperPressed = gamepad1.right_bumper;
             if (countUp) {
                 if (countsinceapressed < 10) {
@@ -213,12 +212,12 @@ public class HDriveTeleop extends OpMode {
                     middleMotor.setPower(-calculator.getMiddleDrive());
                 }
             }
-           /*if (left > 0) {
+           if (left > 0) {
                buttonPusher.setPosition(1);
            }
            if (right > 0) {
                buttonPusher.setPosition(0);
-           }*/
+           }
    /*   if(gamepad1.left_bumper == true) {
           leftMotor.setPower(-.1);
           rightMotor.setPower(-.1);
@@ -240,10 +239,11 @@ public class HDriveTeleop extends OpMode {
             if (rightBumperHit && shootTimerDone && !bumperIsPressed) {
                 counter++;
                 if(counter<190) {
-                    indexer.setPosition(.28);
+                    indexer.setPosition(.08);
                 }
                 if(counter > 190) {
-                    indexer.setPosition(0);
+                    indexer.setPosition(.6);
+                    //indexer.setPosition(4);
                     counter2++;
                     //telemetry.addLine(Double.toString(shooter.getCurrentPosition()));
                     //telemetry.update();
@@ -252,14 +252,14 @@ public class HDriveTeleop extends OpMode {
                 }
                 if(counter2 > 270) {
                     shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                    shooter.setTargetPosition(3360 * numberOfShots);
+                    shooter.setTargetPosition(1680 * numberOfShots);
                     shooter.setPower(1);
                     shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     bumperIsPressed = true;
                     doItOnce = true;
                 }
             }
-            if (doItOnce == true && shooter.getCurrentPosition() >= ((3360 * numberOfShots) - 4) && shooter.getCurrentPosition() <= ((3360 * numberOfShots) + 4) && bumperIsPressed) {
+            if (doItOnce == true && shooter.getCurrentPosition() >= ((1680 * numberOfShots) - 4) && shooter.getCurrentPosition() <= ((1680 * numberOfShots) + 4) && bumperIsPressed) {
                 ticks = shooter.getCurrentPosition();
                 shootTimerDone = false;
                 shooter.setPower(0);
@@ -274,6 +274,7 @@ public class HDriveTeleop extends OpMode {
                 //telemetry.addLine(Double.toString(shooter.getCurrentPosition()));
                 //telemetry.update();
             }
+
            /*time8 = System.currentTimeMillis();
            if(time8-time7 > 1000 && finishedShooting == true) {
                finishedShooting = false;
@@ -296,9 +297,11 @@ public class HDriveTeleop extends OpMode {
             if (gamepad2.left_bumper == true || gamepad2.left_trigger == 1) {
                 if(gamepad2.left_bumper == true) {
                     IntakeMotor.setPower(1);
+                    indexer.setPosition(.3);
                 }
                 else {
                     IntakeMotor.setPower(-1);
+                    indexer.setPosition(.3);
                 }
             } else {
                 IntakeMotor.setPower(0);
@@ -327,7 +330,7 @@ public class HDriveTeleop extends OpMode {
       */
             //**********************************************************************
         }
-       /*
+
        if (gamepad1.right_bumper) {
            middleMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
            if(starting[1]) {
@@ -512,7 +515,7 @@ public class HDriveTeleop extends OpMode {
            Arrays.fill(starting, false);
            beaconBlue = false;
            beaconRed  = false;
-       }*/
+       }
         //telemetry.addData("Left  Motor",leftMotor.getPower());
         //telemetry.addData("Right Motor",rightMotor.getPower());
         //telemetry.update();

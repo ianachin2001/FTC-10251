@@ -39,7 +39,6 @@ public class changeShooter extends OpMode {
     DcMotor shooter;
 
 
-
     public changeShooter(){
 
     }
@@ -50,8 +49,8 @@ public class changeShooter extends OpMode {
     }
 
     public void loop() {
-        if(gamepad2.right_trigger == 1) {
-            shooter.setPower(-1);
+        if(gamepad2.right_trigger == 1 || gamepad2.left_trigger == 1) {
+            shooter.setPower(.1);
         }
         else {
             shooter.setPower(0);

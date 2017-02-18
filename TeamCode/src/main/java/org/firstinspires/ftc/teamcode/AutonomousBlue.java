@@ -62,6 +62,8 @@ public class AutonomousBlue extends LinearOpMode {
     DcMotor rightMotor;
     DcMotor middleMotor;
     DcMotor shooter;
+    DcMotor IntakeMotor;
+    Servo indexer;
     DcMotorController controller;
     DcMotorController controller2;
     ServoController controller3;
@@ -80,7 +82,7 @@ public class AutonomousBlue extends LinearOpMode {
 
         //Vuforia.setHint(HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS,4);
 
-        touchsensor = hardwareMap.touchSensor.get("touch_sensor");
+        //touchsensor = hardwareMap.touchSensor.get("touch_sensor");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -98,13 +100,15 @@ public class AutonomousBlue extends LinearOpMode {
 
         telemetry.addData("Status", "Resetting Encoders");    //
         telemetry.update();
+        indexer = hardwareMap.servo.get("indexer");
         leftMotor = hardwareMap.dcMotor.get("leftMotor");
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
         middleMotor = hardwareMap.dcMotor.get("middleMotor");
         shooter = hardwareMap.dcMotor.get("shooter");
-        controller = hardwareMap.dcMotorController.get("Motor Controller 1");
-        controller2 = hardwareMap.dcMotorController.get("Motor Controller 2");
-        controller3 = hardwareMap.servoController.get("Servo Controller 1");
+        IntakeMotor = hardwareMap.dcMotor.get("IntakeMotor");
+        //controller = hardwareMap.dcMotorController.get("Motor Controller 1");
+        //controller2 = hardwareMap.dcMotorController.get("Motor Controller 2");
+        //controller3 = hardwareMap.servoController.get("Servo Controller 1");
         distanceSensor = hardwareMap.analogInput.get("ODS");
         servo2 = hardwareMap.servo.get("servo2");
         sensorRGB = hardwareMap.colorSensor.get("color");
@@ -136,22 +140,62 @@ public class AutonomousBlue extends LinearOpMode {
         telemetry.update();
         leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-        middleMotor.setDirection(DcMotor.Direction.FORWARD);
+       // middleMotor.setDirection(DcMotor.Direction.FORWARD);
 
         waitForStart();
 
 
         //encoderDriveMiddle(.4,-13,20);
-        Thread.sleep(50);
-        shooter.setTargetPosition(3120);
+        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooter.setTargetPosition(1680);
         shooter.setPower(1);
         shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while(shooter.isBusy()) {
+            Thread.sleep(20);
+        }
+        shooter.setPower(0);
+        indexer.setPosition(.08);
+        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Thread.sleep(1000);
-        encoderDriveMiddle(.5,-5,20);
+        indexer.setPosition(.6);
+        shooter.setTargetPosition(1680);
+        shooter.setPower(1);
+        shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while(shooter.isBusy(
 
+        )) {
+            Thread.sleep(20);
+        }
+        IntakeMotor.setPower(-1);
+        encoderDrive(.3,4,4,20);
+        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        encoderDrive(.3,-4,-4,20);
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        IntakeMotor.setPower(0);
+        Thread.sleep(1000);
+        indexer.setPosition(.08);
+        Thread.sleep(500);
+        indexer.setPosition(.6);
+        shooter.setTargetPosition(1680);
+        shooter.setPower(1);
+        shooter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while(shooter.isBusy()) {
+            Thread.sleep(20);
+        }
+        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        middleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        encoderDriveMiddle(-.5,-10,20);
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftMotor.setPower(-.3);//
+        rightMotor.setPower(.3);//
         while(initialAngle > -90) { // Subtract 3.5 degrees because the while has a delay or something
-            rightMotor.setPower(-.2);
-            leftMotor.setPower(.2);
+            rightMotor.setPower(-.3);
+            leftMotor.setPower(.3);
             telemetry.clearAll();
             telemetry.addData("Gyro Angle" , angleDouble);
             telemetry.update();
@@ -159,6 +203,8 @@ public class AutonomousBlue extends LinearOpMode {
             angleDouble = formatAngle(angles.angleUnit, angles.firstAngle);
             initialAngle = Double.parseDouble(angleDouble);
         }
+        telemetry.addLine("Past");
+        telemetry.update();
         shooter.setPower(0);
         leftMotor.setPower(0);
         rightMotor.setPower(0);
@@ -189,7 +235,6 @@ public class AutonomousBlue extends LinearOpMode {
         leftMotor.setPower(0);
         rightMotor.setPower(0);
         middleMotor.setPower(0);
-        Thread.sleep(300);
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         middleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -197,13 +242,12 @@ public class AutonomousBlue extends LinearOpMode {
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         middleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        encoderDriveBoth(.2,.2,-32,-32,-32,100);
-        Thread.sleep(200);
+        encoderDriveBoth(.8,.8,-36,36,36,100);
         middleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         idle();
         middleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Thread.sleep(300);
-        encoderDriveMiddle(.6,-20,20.0);
+        encoderDriveMiddle(.8,-60,20.0);
 
         leftMotor.setPower(0); //Stop the left Motor
         rightMotor.setPower(0); //Stop the Right Motor
@@ -211,7 +255,7 @@ public class AutonomousBlue extends LinearOpMode {
         middleMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         middleMotor.setPower(-.3);
         int x = 0;
-        while(x < 3) {
+        while(x < 5) {
             x++;
             Thread.sleep(300);
         }
@@ -240,11 +284,17 @@ public class AutonomousBlue extends LinearOpMode {
         middleMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         servo2.setPosition(0);
         middleMotor.setPower(-.1);
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        middleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        middleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while(distanceSensor.getVoltage() < .7) {
             telemetry.addData("Middle Motor", middleMotor.getPower());
             telemetry.update();
-            leftMotor.setPower(-.1);
-            rightMotor.setPower(-.1);
+            leftMotor.setPower(.1);
+            rightMotor.setPower(.1);
             //telemetry.addData("Distance Sensor", distanceSensor.getVoltage());
             //telemetry.update();
         }
@@ -270,7 +320,7 @@ public class AutonomousBlue extends LinearOpMode {
             idle();
             leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            encoderDrive(-.5,-7,-7,20);
+            encoderDrive(-.5,7,7,20);
             leftMotor.setPower(0);
             rightMotor.setPower(0);
             middleMotor.setPower(0);
@@ -282,7 +332,7 @@ public class AutonomousBlue extends LinearOpMode {
             leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             middleMotor.setPower(-.1);
-            encoderDrive(.6, -21, -21, 20.0);
+            encoderDrive(.6, 21, 21, 20.0);
             Thread.sleep(100);
             middleMotor.setPower(0);
         }
@@ -296,7 +346,7 @@ public class AutonomousBlue extends LinearOpMode {
             idle();
             leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            encoderDrive(-.2,-1,-1,20);
+            encoderDrive(-.2,1,1,20);
             servo2.setPosition(1);
             Thread.sleep(500);
             servo2.setPosition(0);
@@ -307,7 +357,7 @@ public class AutonomousBlue extends LinearOpMode {
             leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             middleMotor.setPower(-.1);
-            encoderDrive(-.3,-10,-10,20);
+            encoderDrive(-.3,10,10,20);
             middleMotor.setPower(0);
             leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -315,7 +365,7 @@ public class AutonomousBlue extends LinearOpMode {
             leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             middleMotor.setPower(-.1);
-            encoderDrive(.6, -22, -22, 20.0);
+            encoderDrive(.6, 22, 22, 20.0);
             Thread.sleep(100);
             middleMotor.setPower(0);
 
@@ -342,8 +392,8 @@ public class AutonomousBlue extends LinearOpMode {
         Thread.sleep(100);
         middleMotor.setPower(0);
         while(distanceSensor.getVoltage() < .7) {
-            leftMotor.setPower(-.2);
-            rightMotor.setPower(-.2);
+            leftMotor.setPower(.2);
+            rightMotor.setPower(.2);
             middleMotor.setPower(-.1);
         }
         leftMotor.setPower(0);
@@ -357,7 +407,7 @@ public class AutonomousBlue extends LinearOpMode {
             idle();
             leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            encoderDrive(-.2,-5,-5,20);
+            encoderDrive(-.2,5,5,20);
             servo2.setPosition(1);
             Thread.sleep(500);
             servo2.setPosition(0);
@@ -366,7 +416,7 @@ public class AutonomousBlue extends LinearOpMode {
             idle();
             leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            encoderDrive(-.5,-7,-7,20);
+            encoderDrive(-.5,7,7,20);
             leftMotor.setPower(0);
             rightMotor.setPower(0);
             middleMotor.setPower(0);
@@ -390,7 +440,7 @@ public class AutonomousBlue extends LinearOpMode {
             idle();
             leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            encoderDrive(-.2,-1,-1,20);
+            encoderDrive(-.2,1,1,20);
             servo2.setPosition(1);
             Thread.sleep(500);
             servo2.setPosition(0);
@@ -401,7 +451,7 @@ public class AutonomousBlue extends LinearOpMode {
             leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             middleMotor.setPower(-.1);
-            encoderDrive(-.3,-11,-11,20);
+            encoderDrive(-.3,11,11,20);
             middleMotor.setPower(0);
             leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -429,7 +479,7 @@ public class AutonomousBlue extends LinearOpMode {
         idle();
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        encoderDrive(.2,25,25,20);
+        encoderDrive(.2,-25,-25,20);
         /*angles = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);//Initialize gyro
         angleDouble = formatAngle(angles.angleUnit, angles.firstAngle); //Initialize Gyro
         initialAngle = Double.parseDouble(angleDouble); //Set the Gyro angle to Double (Originally String)
@@ -496,10 +546,10 @@ public class AutonomousBlue extends LinearOpMode {
                     (middleMotor.isBusy())) {
 
                 // Display it for the driver.
-                //telemetry.addData("Path1", "Running to %7d", newMiddleTarget);
-                //telemetry.addData("Path2", "Running at %7d",
-                //        middleMotor.getCurrentPosition());
-                //telemetry.update();
+                telemetry.addData("Path1", "Running to %7d", newMiddleTarget);
+                telemetry.addData("Path2", "Running at %7d",
+                      middleMotor.getCurrentPosition());
+                telemetry.update();
 
                 // Allow time for other processes to run.
                 idle();
